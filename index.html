@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>iMers Galactic Shooter - Full Source Code</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--bg:#050816;
+--card:rgba(255,255,255,.04);
+--cyan:#00e5ff;
+--pink:#ff2d95;
+--purple:#8a2eff;
+--text:#ffffff;
+--muted:#9aa3b2;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:
+radial-gradient(circle at top left,#161d4b 0%,transparent 35%),
+radial-gradient(circle at bottom right,#34003d 0%,transparent 35%),
+#050816;
+color:white;
+overflow-x:hidden;
+}
+
+.container{
+width:min(1200px,90%);
+margin:auto;
+}
+
+section{
+padding:90px 0;
+}
+
+h1,h2,h3{
+font-family:'Orbitron',sans-serif;
+}
+
+.glow{
+text-shadow:
+0 0 15px var(--cyan),
+0 0 30px var(--cyan);
+}
+
+.btn{
+display:inline-block;
+padding:16px 30px;
+border-radius:14px;
+text-decoration:none;
+font-weight:700;
+transition:.3s;
+margin:5px;
+}
+
+.btn-demo{
+background:linear-gradient(90deg,var(--cyan),#4ef7ff);
+color:#000;
+}
+
+.btn-buy{
+background:linear-gradient(90deg,var(--pink),var(--purple));
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-4px);
+}
+
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+text-align:center;
+}
+
+.badge{
+display:inline-block;
+padding:10px 20px;
+border:1px solid rgba(0,229,255,.3);
+border-radius:999px;
+background:rgba(0,229,255,.08);
+color:var(--cyan);
+margin-bottom:25px;
+}
+
+.hero h1{
+font-size:clamp(42px,8vw,90px);
+line-height:1;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:20px;
+max-width:800px;
+margin:auto;
+color:var(--muted);
+margin-bottom:35px;
+}
+
+.hero-image{
+margin-top:50px;
+}
+
+.hero-image img{
+width:100%;
+max-width:700px;
+border-radius:25px;
+box-shadow:
+0 0 60px rgba(0,229,255,.25);
+}
+
+.section-title{
+text-align:center;
+font-size:42px;
+margin-bottom:20px;
+}
+
+.section-sub{
+text-align:center;
+color:var(--muted);
+max-width:700px;
+margin:0 auto 50px;
+}
+
+.grid{
+display:grid;
+gap:25px;
+}
+
+.features{
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+}
+
+.card{
+background:var(--card);
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+padding:30px;
+backdrop-filter:blur(10px);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+border-color:var(--cyan);
+box-shadow:0 0 25px rgba(0,229,255,.15);
+}
+
+.card h3{
+margin-bottom:15px;
+}
+
+.card p{
+color:var(--muted);
+line-height:1.7;
+}
+
+.tech{
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
+
+.tech .card{
+text-align:center;
+font-size:20px;
+font-weight:700;
+}
+
+.pricing{
+max-width:800px;
+margin:auto;
+text-align:center;
+background:linear-gradient(135deg,#0e1635,#1a0a2b);
+padding:60px;
+border-radius:30px;
+border:1px solid rgba(255,255,255,.1);
+box-shadow:0 0 50px rgba(138,46,255,.2);
+}
+
+.old{
+font-size:24px;
+text-decoration:line-through;
+color:#888;
+}
+
+.price{
+font-size:90px;
+font-weight:900;
+font-family:'Orbitron';
+background:linear-gradient(90deg,var(--cyan),var(--pink));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.demo-box{
+background:var(--card);
+padding:40px;
+border-radius:25px;
+text-align:center;
+font-size:24px;
+font-weight:700;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.demo-box a{
+color:var(--cyan);
+text-decoration:none;
+}
+
+.faq{
+max-width:900px;
+margin:auto;
+}
+
+.faq-item{
+margin-bottom:20px;
+padding:25px;
+background:var(--card);
+border-radius:20px;
+}
+
+.faq-item h3{
+margin-bottom:10px;
+}
+
+footer{
+padding:40px;
+text-align:center;
+color:#888;
+border-top:1px solid rgba(255,255,255,.08);
+}
+
+.neon-line{
+height:2px;
+background:linear-gradient(to right,transparent,var(--cyan),transparent);
+margin:50px 0;
+}
+
+</style>
+</head>
+<body>
+
+<section class="hero">
+<div class="container">
+
+<div class="badge">
+🚀 Premium Web Game Source Code
+</div>
+
+<h1 class="glow">
+iMers Galactic Shooter
+</h1>
+
+<p>
+Game arcade shooter bertema luar angkasa dengan gameplay cepat,
+visual menarik, leaderboard, dan sistem upgrade.
+Siap dipelajari, dimodifikasi, dan dikembangkan.
+</p>
+
+<a href="https://maingames.vercel.app" target="_blank" class="btn btn-demo">
+🎮 Mainkan Demo
+</a>
+
+<a href="#pricing" class="btn btn-buy">
+💰 Dapatkan Source Code
+</a>
+
+<div class="hero-image">
+
+<!-- GANTI DENGAN SCREENSHOT GAME -->
+<img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200" alt="Game Preview">
+
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<h2 class="section-title">
+✨ Fitur Utama
+</h2>
+
+<p class="section-sub">
+Semua yang kamu butuhkan untuk memulai game shooter berbasis web.
+</p>
+
+<div class="grid features">
+
+<div class="card">
+<h3>🎯 Auto Shoot System</h3>
+<p>Gameplay cepat dan nyaman dimainkan di desktop maupun mobile.</p>
+</div>
+
+<div class="card">
+<h3>🚀 3 Kelas Kapal</h3>
+<p>Striker, Vanguard, dan Phantom dengan karakteristik berbeda.</p>
+</div>
+
+<div class="card">
+<h3>🔥 Upgrade Senjata</h3>
+<p>Tingkatkan damage dan kemampuan tempur selama permainan.</p>
+</div>
+
+<div class="card">
+<h3>🏆 Global Leaderboard</h3>
+<p>Bersaing mendapatkan skor tertinggi dengan pemain lainnya.</p>
+</div>
+
+<div class="card">
+<h3>📱 Mobile Friendly</h3>
+<p>Tampilan responsif untuk smartphone, tablet, dan desktop.</p>
+</div>
+
+<div class="card">
+<h3>⚡ Ringan & Cepat</h3>
+<p>Performa optimal dengan teknologi web modern.</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section>
+
+<div class="container">
+
+<h2 class="section-title">
+🛠 Built With
+</h2>
+
+<div class="grid tech">
+
+<div class="card">Google Apps Script</div>
+<div class="card">HTML5 Canvas</div>
+<div class="card">CSS3</div>
+<div class="card">JavaScript</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<h2 class="section-title">
+📦 Yang Kamu Dapatkan
+</h2>
+
+<div class="grid features">
+
+<div class="card">
+<h3>✅ Full Source Code</h3>
+</div>
+
+<div class="card">
+<h3>✅ Asset Game</h3>
+</div>
+
+<div class="card">
+<h3>✅ Struktur Kode Rapi</h3>
+</div>
+
+<div class="card">
+<h3>✅ Mudah Rebranding</h3>
+</div>
+
+<div class="card">
+<h3>✅ Lifetime Access</h3>
+</div>
+
+<div class="card">
+<h3>✅ Siap Dikembangkan</h3>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<h2 class="section-title">
+🎮 Coba Main Dulu
+</h2>
+
+<div class="demo-box">
+
+Mainkan langsung di
+
+<br><br>
+
+<a href="https://maingames.vercel.app" target="_blank">
+maingames.vercel.app
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="pricing">
+
+<div class="container">
+
+<div class="pricing">
+
+<h2>🔥 Special Launch Price</h2>
+
+<br>
+
+<div class="old">Rp99.000</div>
+
+<div class="price">
+Rp20.000
+</div>
+
+<p style="color:#9aa3b2;margin:20px 0;">
+Sekali bayar, akses source code selamanya.
+</p>
+
+<a href="#" class="btn btn-buy">
+🚀 BELI SEKARANG
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<h2 class="section-title">
+❓ FAQ
+</h2>
+
+<div class="faq">
+
+<div class="faq-item">
+<h3>Apakah source code lengkap?</h3>
+<p>Ya, source code lengkap sesuai paket yang dijual.</p>
+</div>
+
+<div class="faq-item">
+<h3>Bisa dimodifikasi?</h3>
+<p>Tentu. Kamu bebas mengembangkan fitur dan tampilan.</p>
+</div>
+
+<div class="faq-item">
+<h3>Cocok untuk belajar?</h3>
+<p>Sangat cocok untuk mempelajari game development berbasis web.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2025 iMers Galactic Shooter
+
+</footer>
+
+</body>
+</html>
