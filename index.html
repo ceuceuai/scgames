@@ -12,7 +12,7 @@
 
   <meta
     name="description"
-    content="Full source code iMers Galactic Shooter berbasis Google Apps Script. Mobile friendly, mudah direbranding, dan siap dikembangkan."
+    content="Full source code iMers Galactic Shooter berbasis Google Apps Script."
   >
 
   <base target="_top">
@@ -35,9 +35,8 @@
   <style>
     :root {
       --bg: #050816;
-      --bg-dark: #03050d;
       --surface: rgba(12, 18, 42, 0.76);
-      --surface-strong: #0d1530;
+      --surface-solid: #0d1530;
       --line: rgba(255, 255, 255, 0.09);
 
       --text: #f8fbff;
@@ -113,6 +112,7 @@
 
       position: fixed;
       inset: 0;
+
       z-index: -2;
 
       pointer-events: none;
@@ -349,7 +349,7 @@
     .desktop-nav {
       display: flex;
       align-items: center;
-      gap: 27px;
+      gap: 25px;
     }
 
     .desktop-nav a {
@@ -358,7 +358,7 @@
       color: #c4cce0;
 
       text-decoration: none;
-      font-size: 0.87rem;
+      font-size: 0.86rem;
       font-weight: 700;
 
       transition: 0.2s ease;
@@ -1115,7 +1115,7 @@
     }
 
     /* =========================
-       STATS
+       STATISTICS
     ========================== */
 
     .stats {
@@ -1620,29 +1620,43 @@
       color: #8f9ab3;
     }
 
-    .two-files-badge {
+    .two-files-badge,
+    .bonus-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
 
-      margin-top: 22px;
+      margin-top: 20px;
 
       padding:
         10px 12px;
 
+      border-radius: 12px;
+
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .two-files-badge {
       border:
         1px solid
         rgba(87, 255, 173, 0.24);
-
-      border-radius: 12px;
 
       color: #cffff0;
 
       background:
         rgba(87, 255, 173, 0.07);
+    }
 
-      font-size: 0.8rem;
-      font-weight: 800;
+    .bonus-badge {
+      border:
+        1px solid
+        rgba(255, 212, 92, 0.24);
+
+      color: #fff3bd;
+
+      background:
+        rgba(255, 212, 92, 0.07);
     }
 
     /* =========================
@@ -2901,17 +2915,17 @@
 
             <span>
               <i>✓</i>
-              Hanya 2 file
+              Core project 2 file
             </span>
 
             <span>
               <i>✓</i>
-              Mobile friendly
+              Tanpa hosting terpisah
             </span>
 
             <span>
               <i>✓</i>
-              Mudah direbranding
+              Bonus HTML iframe
             </span>
 
           </div>
@@ -3002,7 +3016,7 @@
     </section>
 
 
-    <!-- STATS -->
+    <!-- STATISTICS -->
 
     <section class="section">
 
@@ -3017,7 +3031,7 @@
             </strong>
 
             <span>
-              File Project
+              Core File
             </span>
 
           </div>
@@ -3037,11 +3051,11 @@
           <div class="stat">
 
             <strong>
-              Mobile
+              No Host
             </strong>
 
             <span>
-              Responsive
+              Jalan di Apps Script
             </span>
 
           </div>
@@ -3092,8 +3106,7 @@
           <p>
             Project siap digunakan untuk belajar,
             portfolio, modifikasi, rebranding,
-            maupun dikembangkan menjadi game yang
-            lebih besar.
+            maupun dikembangkan menjadi game yang lebih besar.
           </p>
 
         </div>
@@ -3348,7 +3361,7 @@
           </span>
 
           <h2>
-            Project Sederhana.
+            Core Project Sederhana.
 
             <span class="gradient-text">
               Cuma 2 File.
@@ -3356,11 +3369,12 @@
           </h2>
 
           <p>
-            Tidak ada folder rumit.
+            Core game Google Apps Script hanya terdiri
+            dari satu file backend dan satu file frontend.
 
-            Seluruh project Google Apps Script hanya
-            terdiri dari satu file backend dan satu
-            file frontend.
+            Sebagai bonus, kamu juga mendapatkan file HTML
+            iframe untuk menampilkan game di Vercel atau
+            website lain.
           </p>
 
         </div>
@@ -3390,6 +3404,7 @@
 
               </div>
 
+
               <div class="check-item">
 
                 <b>✓</b>
@@ -3397,11 +3412,11 @@
                 <span>
                   <strong>Code.gs</strong>
                   untuk server-side logic,
-                  penyimpanan data, dan deployment
-                  web app
+                  penyimpanan data, dan deployment web app
                 </span>
 
               </div>
+
 
               <div class="check-item">
 
@@ -3415,35 +3430,39 @@
 
               </div>
 
+
               <div class="check-item">
 
                 <b>✓</b>
 
                 <span>
-                  Mudah mengganti nama, logo, warna,
-                  dan identitas game
+                  Bonus <strong>iframe.html</strong>
+                  untuk menampilkan game di Vercel
+                  atau website lain
                 </span>
 
               </div>
 
+
               <div class="check-item">
 
                 <b>✓</b>
 
                 <span>
-                  Siap dijalankan sebagai Google
-                  Apps Script Web App
+                  Core game tidak membutuhkan
+                  hosting terpisah
                 </span>
 
               </div>
 
+
               <div class="check-item">
 
                 <b>✓</b>
 
                 <span>
-                  Cocok untuk belajar, portfolio,
-                  dan project whitelabel
+                  Mudah mengganti nama, logo,
+                  warna, dan identitas game
                 </span>
 
               </div>
@@ -3458,7 +3477,7 @@
             <div class="code-header">
 
               <span>
-                PROJECT STRUCTURE
+                CORE PROJECT STRUCTURE
               </span>
 
               <span>
@@ -3475,8 +3494,15 @@
 
             <div class="two-files-badge">
 
-              ✓ Ringkas, mudah dipahami,
-              dan gampang dimodifikasi
+              ✓ Core project tetap ringkas
+              dan mudah dimodifikasi
+
+            </div>
+
+            <div class="bonus-badge">
+
+              🎁 Bonus iframe.html untuk
+              Vercel atau website lain
 
             </div>
 
@@ -3582,7 +3608,7 @@
             <div class="important-item">
 
               <h3>
-                Final Source Code &amp; Kebijakan No Refund
+                Final Source Code &amp; Kebijakan Pembaruan
               </h3>
 
               <p>
@@ -3592,9 +3618,19 @@
               </p>
 
               <p>
+                Core game dijalankan melalui Google Apps
+                Script sehingga tidak membutuhkan hosting
+                terpisah.
+
+                File HTML iframe juga disertakan apabila
+                Anda ingin menampilkan game melalui Vercel
+                atau website lain.
+              </p>
+
+              <p>
                 Anda dipersilakan mengedit, menyesuaikan,
-                serta mengembangkannya sendiri agar menjadi
-                lebih baik sesuai kebutuhan bisnis.
+                serta mengembangkan source code sendiri agar
+                menjadi lebih baik sesuai kebutuhan.
               </p>
 
             </div>
@@ -3611,10 +3647,11 @@
               </h3>
 
               <p>
-                Pastikan Anda sudah melihat demo, membaca
-                fitur, memahami kebutuhan hosting, serta
-                menyetujui syarat dan lisensi sebelum
-                melakukan pembayaran.
+                Pastikan Anda sudah mencoba demo, membaca
+                seluruh fitur, memahami cara penggunaan
+                Google Apps Script, serta menyetujui
+                ketentuan pembelian sebelum melakukan
+                pembayaran.
               </p>
 
 
@@ -3641,8 +3678,8 @@
                   </span>
 
                   <span>
-                    Sudah membaca fitur, isi paket, dan
-                    struktur source code yang diterima.
+                    Sudah membaca fitur, isi paket,
+                    dan struktur source code yang diterima.
                   </span>
 
                 </div>
@@ -3655,8 +3692,39 @@
                   </span>
 
                   <span>
-                    Sudah memahami bahwa project menggunakan
-                    Google Apps Script.
+                    Sudah memahami bahwa core game dijalankan
+                    melalui Google Apps Script dan tidak
+                    membutuhkan hosting terpisah.
+                  </span>
+
+                </div>
+
+
+                <div class="important-check">
+
+                  <span class="important-check-icon">
+                    ✓
+                  </span>
+
+                  <span>
+                    Sudah memahami bahwa halaman Vercel hanya
+                    digunakan sebagai pembungkus iframe untuk
+                    menampilkan game.
+                  </span>
+
+                </div>
+
+
+                <div class="important-check">
+
+                  <span class="important-check-icon">
+                    ✓
+                  </span>
+
+                  <span>
+                    Sudah memahami bahwa file HTML iframe
+                    untuk Vercel atau website lain juga
+                    disertakan.
                   </span>
 
                 </div>
@@ -3684,8 +3752,8 @@
 
                   <span>
                     Sudah memahami bahwa pembeli bertanggung
-                    jawab atas proses edit dan pengembangan
-                    lanjutan.
+                    jawab atas proses edit, penyesuaian,
+                    deployment, dan pengembangan lanjutan.
                   </span>
 
                 </div>
@@ -3702,6 +3770,7 @@
                 <span>
                   Dengan melakukan pembayaran, pembeli
                   dianggap telah membaca, memahami, dan
+
                   <strong>
                     menyetujui seluruh ketentuan pembelian
                     serta kebijakan no refund.
@@ -3756,9 +3825,9 @@
             </summary>
 
             <p>
-              Ya. Kamu mendapatkan project Google
-              Apps Script yang terdiri dari Code.gs
-              dan Index.html.
+              Ya. Kamu mendapatkan core project Google
+              Apps Script yang terdiri dari Code.gs dan
+              Index.html, ditambah bonus iframe.html.
             </p>
 
           </details>
@@ -3767,14 +3836,34 @@
           <details>
 
             <summary>
-              Apakah project hanya memiliki dua file?
+              Apakah core project hanya memiliki dua file?
             </summary>
 
             <p>
-              Ya. Seluruh logic server berada di
-              Code.gs, sedangkan tampilan, CSS,
-              JavaScript, dan gameplay berada di
+              Ya. Core project terdiri dari Code.gs dan
               Index.html.
+
+              File iframe.html diberikan terpisah sebagai
+              bonus untuk menampilkan game di Vercel atau
+              website lain.
+            </p>
+
+          </details>
+
+
+          <details>
+
+            <summary>
+              Apakah membutuhkan hosting terpisah?
+            </summary>
+
+            <p>
+              Tidak. Core game dijalankan melalui Google
+              Apps Script.
+
+              Vercel atau website lain hanya opsional
+              apabila ingin menampilkan game menggunakan
+              iframe.
             </p>
 
           </details>
@@ -3788,8 +3877,8 @@
 
             <p>
               Ya. Tampilan dan kontrol dibuat responsif
-              agar dapat dimainkan melalui desktop
-              maupun browser ponsel.
+              agar dapat dimainkan melalui desktop maupun
+              browser ponsel.
             </p>
 
           </details>
@@ -3846,10 +3935,9 @@
             </summary>
 
             <p>
-              Cocok untuk yang sudah memahami dasar
-              HTML, CSS, JavaScript, dan ingin
-              mempelajari project Google Apps Script
-              yang sudah berjalan.
+              Cocok untuk yang sudah memahami dasar HTML,
+              CSS, JavaScript, dan ingin mempelajari
+              project Google Apps Script yang sudah berjalan.
             </p>
 
           </details>
@@ -4015,7 +4103,7 @@
 
 
     const BUY_MESSAGE =
-      "Halo, saya ingin membeli Full Source Code iMers Galactic Shooter seharga Rp20.000. Saya sudah melihat demo serta membaca dan menyetujui ketentuan no refund.";
+      "Halo, saya ingin membeli Full Source Code iMers Galactic Shooter seharga Rp 29.000. Saya sudah mencoba demo serta membaca dan menyetujui ketentuan no refund.";
 
 
     const BUY_URL =
@@ -4056,7 +4144,7 @@
 
 
     /*
-    Efek navbar ketika halaman di-scroll.
+    Efek navbar saat halaman di-scroll.
     */
 
     const topbar =
