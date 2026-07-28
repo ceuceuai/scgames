@@ -8,11 +8,11 @@
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
 
-  <meta name="theme-color" content="#050713">
+  <meta name="theme-color" content="#050816">
 
   <meta
     name="description"
-    content="Full source code iMers Galactic Shooter. Game arcade berbasis Google Apps Script, HTML, CSS, dan JavaScript."
+    content="Full source code iMers Galactic Shooter berbasis Google Apps Script. Mobile friendly, mudah direbranding, dan siap dikembangkan."
   >
 
   <base target="_top">
@@ -34,33 +34,36 @@
 
   <style>
     :root {
-      --bg: #050713;
-      --surface: rgba(14, 20, 44, 0.76);
-      --surface-strong: #0d142d;
+      --bg: #050816;
+      --bg-dark: #03050d;
+      --surface: rgba(12, 18, 42, 0.76);
+      --surface-strong: #0d1530;
       --line: rgba(255, 255, 255, 0.09);
 
-      --text: #f7fbff;
-      --muted: #a6afc5;
+      --text: #f8fbff;
+      --muted: #a8b2c8;
 
       --cyan: #18e8ff;
-      --cyan-light: #74f5ff;
+      --cyan-soft: #79f4ff;
       --pink: #ff39c6;
       --purple: #8a5cff;
-      --green: #5cffb3;
+      --green: #57ffad;
       --yellow: #ffd45c;
+      --red: #ff628e;
 
-      --radius: 22px;
+      --radius: 24px;
       --max-width: 1180px;
-      --bottom-nav-height: 78px;
+      --mobile-nav-height: 78px;
 
       --shadow:
-        0 25px 80px rgba(0, 0, 0, 0.44);
+        0 26px 80px
+        rgba(0, 0, 0, 0.44);
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     html {
@@ -84,17 +87,17 @@
 
       background:
         radial-gradient(
-          circle at 10% 5%,
+          circle at 10% 6%,
           rgba(24, 232, 255, 0.16),
-          transparent 27%
+          transparent 28%
         ),
         radial-gradient(
-          circle at 87% 15%,
+          circle at 88% 12%,
           rgba(255, 57, 198, 0.14),
           transparent 27%
         ),
         radial-gradient(
-          circle at 72% 75%,
+          circle at 72% 76%,
           rgba(138, 92, 255, 0.14),
           transparent 30%
         ),
@@ -127,19 +130,15 @@
           transparent 1px
         );
 
-      background-size: 42px 42px;
+      background-size:
+        42px 42px;
 
       mask-image:
         linear-gradient(
           to bottom,
-          black,
+          #000,
           transparent 92%
         );
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
     }
 
     a,
@@ -155,21 +154,26 @@
     h2,
     h3,
     .brand {
-      font-family: "Orbitron", sans-serif;
+      font-family:
+        "Orbitron",
+        sans-serif;
     }
 
     .container {
-      width: min(
-        var(--max-width),
-        calc(100% - 40px)
-      );
+      width:
+        min(
+          var(--max-width),
+          calc(100% - 40px)
+        );
 
       margin-inline: auto;
     }
 
     .section {
       position: relative;
-      padding: 95px 0;
+
+      padding:
+        96px 0;
     }
 
     .gradient-text {
@@ -179,9 +183,9 @@
         linear-gradient(
           90deg,
           var(--cyan),
-          #c6fbff 38%,
+          #c8fbff 38%,
           var(--pink) 78%,
-          #ff8be1
+          #ff8de2
         );
 
       background-clip: text;
@@ -195,14 +199,16 @@
 
       min-height: 36px;
 
-      padding: 8px 14px;
+      padding:
+        8px 14px;
 
-      border: 1px solid
+      border:
+        1px solid
         rgba(24, 232, 255, 0.28);
 
       border-radius: 999px;
 
-      color: var(--cyan-light);
+      color: var(--cyan-soft);
 
       background:
         rgba(24, 232, 255, 0.07);
@@ -225,7 +231,8 @@
       background: var(--cyan);
 
       box-shadow:
-        0 0 14px var(--cyan);
+        0 0 14px
+        var(--cyan);
     }
 
     .section-head {
@@ -257,12 +264,12 @@
     .section-head p {
       color: var(--muted);
 
-      font-size: 1.03rem;
+      font-size: 1.02rem;
       line-height: 1.8;
     }
 
     /* =========================
-       DESKTOP TOP NAVBAR
+       DESKTOP NAVBAR
     ========================== */
 
     .topbar {
@@ -307,7 +314,7 @@
       align-items: center;
       gap: 11px;
 
-      color: white;
+      color: #ffffff;
 
       text-decoration: none;
       font-size: 0.95rem;
@@ -342,7 +349,7 @@
     .desktop-nav {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 27px;
     }
 
     .desktop-nav a {
@@ -351,7 +358,7 @@
       color: #c4cce0;
 
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       font-weight: 700;
 
       transition: 0.2s ease;
@@ -359,7 +366,7 @@
 
     .desktop-nav a:hover,
     .desktop-nav a.active {
-      color: white;
+      color: #ffffff;
     }
 
     .desktop-nav a:not(.nav-buy)::after {
@@ -393,7 +400,8 @@
     }
 
     .desktop-nav .nav-buy {
-      padding: 11px 17px;
+      padding:
+        11px 17px;
 
       border-radius: 12px;
 
@@ -403,7 +411,7 @@
         linear-gradient(
           90deg,
           var(--cyan),
-          var(--cyan-light)
+          var(--cyan-soft)
         );
 
       box-shadow:
@@ -423,14 +431,15 @@
 
       min-height: 53px;
 
-      padding: 14px 22px;
+      padding:
+        14px 22px;
 
       border:
         1px solid transparent;
 
       border-radius: 14px;
 
-      color: white;
+      color: #ffffff;
 
       text-decoration: none;
       font-weight: 800;
@@ -442,7 +451,8 @@
     }
 
     .btn:hover {
-      transform: translateY(-3px);
+      transform:
+        translateY(-3px);
     }
 
     .btn-primary {
@@ -452,7 +462,7 @@
         linear-gradient(
           90deg,
           var(--cyan),
-          var(--cyan-light)
+          var(--cyan-soft)
         );
 
       box-shadow:
@@ -582,6 +592,7 @@
 
     .game-window {
       position: relative;
+
       isolation: isolate;
     }
 
@@ -649,8 +660,8 @@
     .window-shell:hover {
       transform:
         perspective(1200px)
-        rotateY(0deg)
-        rotateX(0deg)
+        rotateY(0)
+        rotateX(0)
         translateY(-5px);
     }
 
@@ -661,9 +672,11 @@
 
       min-height: 48px;
 
-      padding: 0 17px;
+      padding:
+        0 17px;
 
-      border-bottom: 1px solid var(--line);
+      border-bottom:
+        1px solid var(--line);
 
       background:
         rgba(255, 255, 255, 0.035);
@@ -706,35 +719,347 @@
       white-space: nowrap;
     }
 
-    .preview {
+    .game-preview {
       position: relative;
 
-      min-height: 360px;
+      min-height: 390px;
 
-      background: #030712;
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 50% 75%,
+          rgba(24, 232, 255, 0.13),
+          transparent 24%
+        ),
+        linear-gradient(
+          180deg,
+          #020614 0%,
+          #050a1f 100%
+        );
     }
 
-    .preview img {
+    .stars,
+    .stars::before,
+    .stars::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background-repeat: repeat;
+    }
+
+    .stars {
+      opacity: 0.88;
+
+      background-image:
+        radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.95) 1px,
+          transparent 1.5px
+        ),
+        radial-gradient(
+          circle,
+          rgba(24, 232, 255, 0.9) 1px,
+          transparent 1.5px
+        );
+
+      background-position:
+        0 0,
+        28px 42px;
+
+      background-size:
+        78px 78px,
+        112px 112px;
+    }
+
+    .stars::before {
+      opacity: 0.45;
+
+      background-image:
+        radial-gradient(
+          circle,
+          rgba(255, 57, 198, 0.85) 1px,
+          transparent 1.5px
+        );
+
+      background-position:
+        18px 12px;
+
+      background-size:
+        136px 136px;
+    }
+
+    .game-title {
+      position: absolute;
+
+      top: 34px;
+      left: 50%;
+
+      z-index: 3;
+
       width: 100%;
-      height: 100%;
 
-      min-height: 360px;
+      transform:
+        translateX(-50%);
 
-      object-fit: cover;
-      object-position: center top;
+      text-align: center;
     }
 
-    .floating-status {
+    .game-title small {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--cyan-soft);
+
+      font-size: 0.68rem;
+      font-weight: 900;
+
+      letter-spacing: 0.2em;
+    }
+
+    .game-title strong {
+      display: block;
+
+      font-family:
+        "Orbitron",
+        sans-serif;
+
+      font-size:
+        clamp(
+          1.15rem,
+          3vw,
+          1.8rem
+        );
+
+      text-shadow:
+        0 0 18px
+        rgba(24, 232, 255, 0.65);
+    }
+
+    .hud {
+      position: absolute;
+
+      top: 98px;
+      right: 22px;
+      left: 22px;
+
+      z-index: 3;
+
+      display: flex;
+      justify-content: space-between;
+
+      color: #d5dcee;
+
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .hud span {
+      padding:
+        8px 10px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+      border-radius: 10px;
+
+      background:
+        rgba(6, 10, 25, 0.52);
+    }
+
+    .enemy {
+      position: absolute;
+
+      z-index: 3;
+
+      width: 36px;
+      height: 28px;
+
+      clip-path:
+        polygon(
+          50% 0,
+          100% 75%,
+          72% 100%,
+          50% 78%,
+          28% 100%,
+          0 75%
+        );
+
+      background:
+        linear-gradient(
+          180deg,
+          #ff6ce4,
+          #8a5cff
+        );
+
+      box-shadow:
+        0 0 18px
+        rgba(255, 57, 198, 0.55);
+    }
+
+    .enemy-one {
+      top: 150px;
+      left: 22%;
+    }
+
+    .enemy-two {
+      top: 185px;
+      right: 24%;
+
+      transform:
+        scale(0.82);
+    }
+
+    .enemy-three {
+      top: 122px;
+      right: 42%;
+
+      transform:
+        scale(0.64);
+    }
+
+    .laser {
+      position: absolute;
+
+      z-index: 2;
+
+      width: 3px;
+
+      border-radius: 99px;
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(24, 232, 255, 0),
+          var(--cyan)
+        );
+
+      box-shadow:
+        0 0 14px
+        var(--cyan);
+    }
+
+    .laser-one {
+      top: 190px;
+      left: 48%;
+
+      height: 94px;
+
+      transform:
+        rotate(-5deg);
+    }
+
+    .laser-two {
+      top: 210px;
+      left: 55%;
+
+      height: 70px;
+
+      transform:
+        rotate(7deg);
+    }
+
+    .ship {
+      position: absolute;
+
+      bottom: 52px;
+      left: 50%;
+
+      z-index: 4;
+
+      width: 92px;
+      height: 120px;
+
+      transform:
+        translateX(-50%);
+
+      filter:
+        drop-shadow(
+          0 0 18px
+          rgba(24, 232, 255, 0.75)
+        );
+    }
+
+    .ship::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      clip-path:
+        polygon(
+          50% 0,
+          67% 43%,
+          100% 72%,
+          67% 68%,
+          50% 100%,
+          33% 68%,
+          0 72%,
+          33% 43%
+        );
+
+      background:
+        linear-gradient(
+          180deg,
+          #ebfeff 0%,
+          #4beeff 28%,
+          #476cff 64%,
+          #ff39c6 100%
+        );
+
+      border-radius: 22px;
+    }
+
+    .ship::after {
+      content: "";
+
+      position: absolute;
+
+      bottom: -31px;
+      left: 50%;
+
+      width: 32px;
+      height: 58px;
+
+      transform:
+        translateX(-50%);
+
+      clip-path:
+        polygon(
+          20% 0,
+          80% 0,
+          100% 100%,
+          50% 72%,
+          0 100%
+        );
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.96),
+          var(--cyan),
+          rgba(24, 232, 255, 0)
+        );
+    }
+
+    .status-chip {
       position: absolute;
 
       right: 16px;
       bottom: 16px;
 
+      z-index: 5;
+
       display: inline-flex;
       align-items: center;
       gap: 10px;
 
-      padding: 12px 15px;
+      padding:
+        11px 14px;
 
       border:
         1px solid
@@ -743,7 +1068,7 @@
       border-radius: 14px;
 
       background:
-        rgba(7, 11, 27, 0.9);
+        rgba(7, 11, 27, 0.88);
 
       box-shadow:
         0 18px 36px
@@ -752,7 +1077,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
 
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 800;
     }
 
@@ -773,19 +1098,19 @@
       0% {
         box-shadow:
           0 0 0 0
-          rgba(92, 255, 179, 0.65);
+          rgba(87, 255, 173, 0.65);
       }
 
       70% {
         box-shadow:
           0 0 0 11px
-          rgba(92, 255, 179, 0);
+          rgba(87, 255, 173, 0);
       }
 
       100% {
         box-shadow:
           0 0 0 0
-          rgba(92, 255, 179, 0);
+          rgba(87, 255, 173, 0);
       }
     }
 
@@ -801,7 +1126,9 @@
 
       overflow: hidden;
 
-      border: 1px solid var(--line);
+      border:
+        1px solid var(--line);
+
       border-radius: var(--radius);
 
       background:
@@ -813,13 +1140,15 @@
     }
 
     .stat {
-      padding: 27px 22px;
+      padding:
+        27px 22px;
 
       text-align: center;
     }
 
     .stat + .stat {
-      border-left: 1px solid var(--line);
+      border-left:
+        1px solid var(--line);
     }
 
     .stat strong {
@@ -827,9 +1156,11 @@
 
       margin-bottom: 7px;
 
-      color: var(--cyan-light);
+      color: var(--cyan-soft);
 
-      font-family: "Orbitron", sans-serif;
+      font-family:
+        "Orbitron",
+        sans-serif;
 
       font-size:
         clamp(
@@ -870,7 +1201,9 @@
 
       padding: 28px;
 
-      border: 1px solid var(--line);
+      border:
+        1px solid var(--line);
+
       border-radius: var(--radius);
 
       background:
@@ -911,7 +1244,8 @@
     }
 
     .card:hover {
-      transform: translateY(-7px);
+      transform:
+        translateY(-7px);
 
       border-color:
         rgba(24, 232, 255, 0.25);
@@ -961,7 +1295,7 @@
     }
 
     /* =========================
-       DEMO SECTION
+       DEMO
     ========================== */
 
     .demo-panel {
@@ -1036,7 +1370,7 @@
         23px 0
         22px;
 
-      color: var(--cyan-light);
+      color: var(--cyan-soft);
 
       font-weight: 800;
       text-decoration: none;
@@ -1049,7 +1383,8 @@
 
       min-height: 430px;
 
-      border-left: 1px solid var(--line);
+      border-left:
+        1px solid var(--line);
 
       background-image:
         linear-gradient(
@@ -1062,7 +1397,8 @@
           transparent 1px
         );
 
-      background-size: 32px 32px;
+      background-size:
+        32px 32px;
     }
 
     .phone {
@@ -1090,7 +1426,8 @@
         0 0 50px
         rgba(255, 57, 198, 0.12);
 
-      transform: rotate(4deg);
+      transform:
+        rotate(4deg);
     }
 
     .phone::before {
@@ -1100,7 +1437,8 @@
 
       top: 17px;
       left: 50%;
-      z-index: 2;
+
+      z-index: 8;
 
       width: 72px;
       height: 18px;
@@ -1109,29 +1447,70 @@
 
       background: #03050a;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
     }
 
     .phone-screen {
+      position: relative;
+
       overflow: hidden;
 
-      aspect-ratio: 9 / 18.8;
+      aspect-ratio:
+        9 / 18.8;
 
       border-radius: 26px;
 
-      background: #020611;
+      background:
+        radial-gradient(
+          circle at 50% 78%,
+          rgba(24, 232, 255, 0.16),
+          transparent 25%
+        ),
+        linear-gradient(
+          180deg,
+          #020611,
+          #060b22
+        );
     }
 
-    .phone-screen img {
-      width: 100%;
-      height: 100%;
+    .phone-screen .game-title {
+      top: 44px;
+    }
 
-      object-fit: cover;
-      object-position: center top;
+    .phone-screen .hud {
+      top: 110px;
+      right: 12px;
+      left: 12px;
+
+      font-size: 0.54rem;
+    }
+
+    .phone-screen .enemy-one {
+      top: 160px;
+      left: 20%;
+    }
+
+    .phone-screen .enemy-two {
+      top: 205px;
+      right: 18%;
+    }
+
+    .phone-screen .enemy-three {
+      top: 134px;
+      right: 40%;
+    }
+
+    .phone-screen .ship {
+      bottom: 76px;
+
+      transform:
+        translateX(-50%)
+        scale(0.85);
     }
 
     /* =========================
-       INCLUDED
+       PROJECT STRUCTURE
     ========================== */
 
     .included-grid {
@@ -1161,7 +1540,9 @@
 
     .check-item b {
       display: grid;
-      flex: 0 0 23px;
+      flex:
+        0 0 23px;
+
       place-items: center;
 
       height: 23px;
@@ -1180,7 +1561,9 @@
 
       padding: 25px;
 
-      border: 1px solid var(--line);
+      border:
+        1px solid var(--line);
+
       border-radius: var(--radius);
 
       background: #080c19;
@@ -1215,14 +1598,14 @@
         Consolas,
         monospace;
 
-      font-size: 0.87rem;
-      line-height: 1.85;
+      font-size: 0.88rem;
+      line-height: 1.9;
 
       white-space: pre-wrap;
     }
 
     .code-cyan {
-      color: var(--cyan-light);
+      color: var(--cyan-soft);
     }
 
     .code-pink {
@@ -1231,6 +1614,35 @@
 
     .code-yellow {
       color: var(--yellow);
+    }
+
+    .code-muted {
+      color: #8f9ab3;
+    }
+
+    .two-files-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      margin-top: 22px;
+
+      padding:
+        10px 12px;
+
+      border:
+        1px solid
+        rgba(87, 255, 173, 0.24);
+
+      border-radius: 12px;
+
+      color: #cffff0;
+
+      background:
+        rgba(87, 255, 173, 0.07);
+
+      font-size: 0.8rem;
+      font-weight: 800;
     }
 
     /* =========================
@@ -1295,7 +1707,8 @@
 
       width: 185px;
 
-      padding: 9px 0;
+      padding:
+        9px 0;
 
       color: #071017;
 
@@ -1306,7 +1719,8 @@
 
       letter-spacing: 0.1em;
 
-      transform: rotate(42deg);
+      transform:
+        rotate(42deg);
     }
 
     .old-price {
@@ -1325,7 +1739,9 @@
         6px 0
         4px;
 
-      font-family: "Orbitron", sans-serif;
+      font-family:
+        "Orbitron",
+        sans-serif;
 
       font-size:
         clamp(
@@ -1363,6 +1779,302 @@
     }
 
     /* =========================
+       IMPORTANT INFORMATION
+    ========================== */
+
+    .important-section {
+      padding-top: 38px;
+      padding-bottom: 92px;
+    }
+
+    .important-box {
+      position: relative;
+
+      overflow: hidden;
+
+      max-width: 980px;
+
+      margin-inline: auto;
+
+      padding:
+        clamp(
+          28px,
+          6vw,
+          52px
+        );
+
+      border:
+        1px solid
+        rgba(255, 212, 92, 0.28);
+
+      border-radius: 28px;
+
+      background:
+        radial-gradient(
+          circle at 0% 0%,
+          rgba(255, 212, 92, 0.12),
+          transparent 32%
+        ),
+        radial-gradient(
+          circle at 100% 100%,
+          rgba(255, 57, 198, 0.1),
+          transparent 34%
+        ),
+        linear-gradient(
+          135deg,
+          rgba(29, 23, 16, 0.96),
+          rgba(17, 13, 31, 0.96)
+        );
+
+      box-shadow:
+        0 28px 80px
+        rgba(0, 0, 0, 0.34);
+    }
+
+    .important-box::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 30px;
+
+      width: 120px;
+      height: 3px;
+
+      border-radius: 99px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--yellow),
+          var(--pink)
+        );
+
+      box-shadow:
+        0 0 22px
+        rgba(255, 212, 92, 0.55);
+    }
+
+    .important-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+
+      margin-bottom: 28px;
+    }
+
+    .important-icon {
+      display: grid;
+      flex:
+        0 0 58px;
+
+      place-items: center;
+
+      width: 58px;
+      height: 58px;
+
+      border:
+        1px solid
+        rgba(255, 212, 92, 0.34);
+
+      border-radius: 18px;
+
+      background:
+        rgba(255, 212, 92, 0.1);
+
+      box-shadow:
+        0 0 28px
+        rgba(255, 212, 92, 0.08);
+
+      font-size: 1.65rem;
+    }
+
+    .important-title small {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--yellow);
+
+      font-size: 0.72rem;
+      font-weight: 900;
+
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .important-title h2 {
+      font-size:
+        clamp(
+          1.55rem,
+          4vw,
+          2.55rem
+        );
+
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+    }
+
+    .important-content {
+      display: grid;
+      gap: 20px;
+    }
+
+    .important-item {
+      padding: 23px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+      border-radius: 18px;
+
+      background:
+        rgba(255, 255, 255, 0.035);
+    }
+
+    .important-item h3 {
+      margin-bottom: 12px;
+
+      color: #ffffff;
+
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .important-item p {
+      color: var(--muted);
+
+      font-size: 0.94rem;
+      line-height: 1.8;
+    }
+
+    .important-item p + p {
+      margin-top: 12px;
+    }
+
+    .no-refund-box {
+      border-color:
+        rgba(255, 98, 142, 0.3);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 98, 142, 0.09),
+          rgba(255, 57, 198, 0.045)
+        );
+    }
+
+    .no-refund-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      margin-bottom: 14px;
+
+      padding:
+        8px 12px;
+
+      border:
+        1px solid
+        rgba(255, 98, 142, 0.34);
+
+      border-radius: 999px;
+
+      color: #ff9cba;
+
+      background:
+        rgba(255, 98, 142, 0.08);
+
+      font-size: 0.72rem;
+      font-weight: 900;
+
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .no-refund-box h3 {
+      color: #ffffff;
+
+      font-size:
+        clamp(
+          1rem,
+          3vw,
+          1.3rem
+        );
+    }
+
+    .important-checklist {
+      display: grid;
+      gap: 11px;
+
+      margin-top: 19px;
+    }
+
+    .important-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+
+      color: #d8deee;
+
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .important-check-icon {
+      display: grid;
+      flex:
+        0 0 21px;
+
+      place-items: center;
+
+      width: 21px;
+      height: 21px;
+
+      margin-top: 1px;
+
+      border-radius: 50%;
+
+      color: #181307;
+
+      background: var(--yellow);
+
+      font-size: 0.67rem;
+      font-weight: 900;
+    }
+
+    .agreement-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+
+      margin-top: 22px;
+
+      padding:
+        16px 17px;
+
+      border:
+        1px solid
+        rgba(255, 212, 92, 0.2);
+
+      border-radius: 14px;
+
+      color: #e8e1cf;
+
+      background:
+        rgba(255, 212, 92, 0.055);
+
+      font-size: 0.83rem;
+      line-height: 1.65;
+    }
+
+    .agreement-notice strong {
+      color: var(--yellow);
+    }
+
+    /* =========================
        FAQ
     ========================== */
 
@@ -1377,7 +2089,9 @@
 
       margin-bottom: 13px;
 
-      border: 1px solid var(--line);
+      border:
+        1px solid var(--line);
+
       border-radius: 17px;
 
       background:
@@ -1392,7 +2106,8 @@
 
       min-height: 64px;
 
-      padding: 18px 20px;
+      padding:
+        18px 20px;
 
       cursor: pointer;
 
@@ -1416,7 +2131,8 @@
     }
 
     details[open] summary::after {
-      transform: rotate(45deg);
+      transform:
+        rotate(45deg);
     }
 
     details p {
@@ -1494,7 +2210,8 @@
     .reveal {
       opacity: 0;
 
-      transform: translateY(22px);
+      transform:
+        translateY(22px);
 
       transition:
         opacity 0.7s ease,
@@ -1504,10 +2221,10 @@
     .reveal.show {
       opacity: 1;
 
-      transform: translateY(0);
+      transform:
+        translateY(0);
     }
 
-    /* Default hidden on desktop */
     .mobile-bottom-nav {
       display: none;
     }
@@ -1566,7 +2283,9 @@
       .demo-visual {
         min-height: 390px;
 
-        border-top: 1px solid var(--line);
+        border-top:
+          1px solid var(--line);
+
         border-left: 0;
       }
     }
@@ -1587,7 +2306,7 @@
       body {
         padding-bottom:
           calc(
-            var(--bottom-nav-height) +
+            var(--mobile-nav-height) +
             env(safe-area-inset-bottom)
           );
       }
@@ -1601,10 +2320,10 @@
       }
 
       .section {
-        padding: 72px 0;
+        padding:
+          72px 0;
       }
 
-      /* Top navbar hanya menampilkan logo */
       .topbar {
         position: absolute;
       }
@@ -1637,7 +2356,6 @@
         display: none;
       }
 
-      /* Hero mobile */
       .hero {
         min-height: auto;
 
@@ -1703,21 +2421,52 @@
         border-radius: 20px;
       }
 
-      .preview,
-      .preview img {
-        min-height: 245px;
+      .game-preview {
+        min-height: 330px;
       }
 
-      .floating-status {
+      .game-title {
+        top: 25px;
+      }
+
+      .hud {
+        top: 83px;
+        right: 12px;
+        left: 12px;
+
+        font-size: 0.58rem;
+      }
+
+      .enemy-one {
+        top: 136px;
+      }
+
+      .enemy-two {
+        top: 170px;
+      }
+
+      .enemy-three {
+        top: 110px;
+      }
+
+      .ship {
+        bottom: 58px;
+
+        transform:
+          translateX(-50%)
+          scale(0.86);
+      }
+
+      .status-chip {
         right: 10px;
         bottom: 10px;
 
-        padding: 10px 12px;
+        padding:
+          10px 12px;
 
-        font-size: 0.7rem;
+        font-size: 0.68rem;
       }
 
-      /* Stats mobile */
       .stats {
         grid-template-columns:
           1fr
@@ -1726,14 +2475,14 @@
 
       .stat:nth-child(3),
       .stat:nth-child(4) {
-        border-top: 1px solid var(--line);
+        border-top:
+          1px solid var(--line);
       }
 
       .stat:nth-child(3) {
         border-left: 0;
       }
 
-      /* Cards mobile */
       .features-grid,
       .included-grid {
         grid-template-columns: 1fr;
@@ -1760,11 +2509,9 @@
         padding: 24px;
       }
 
-      /* Demo mobile */
       .demo-copy {
         padding:
-          32px
-          24px;
+          32px 24px;
 
         text-align: center;
       }
@@ -1781,7 +2528,6 @@
           );
       }
 
-      /* Harga mobile */
       .pricing-card {
         border-radius: 24px;
       }
@@ -1795,7 +2541,30 @@
           );
       }
 
-      /* CTA mobile */
+      .important-section {
+        padding-top: 22px;
+        padding-bottom: 72px;
+      }
+
+      .important-box {
+        border-radius: 23px;
+      }
+
+      .important-header {
+        flex-direction: column;
+      }
+
+      .important-icon {
+        width: 52px;
+        height: 52px;
+
+        flex-basis: 52px;
+      }
+
+      .important-item {
+        padding: 20px;
+      }
+
       .cta-box {
         flex-direction: column;
         align-items: stretch;
@@ -1807,19 +2576,19 @@
         padding-bottom: 32px;
       }
 
-      /* =========================
-         MOBILE BOTTOM NAVBAR
-      ========================== */
+      /* MOBILE BOTTOM NAVBAR */
 
       .mobile-bottom-nav {
         position: fixed;
 
         right: 10px;
+
         bottom:
           calc(
             8px +
             env(safe-area-inset-bottom)
           );
+
         left: 10px;
 
         z-index: 2000;
@@ -1833,11 +2602,10 @@
           );
 
         min-height:
-          var(--bottom-nav-height);
+          var(--mobile-nav-height);
 
         padding:
-          8px
-          7px;
+          8px 7px;
 
         border:
           1px solid
@@ -1892,15 +2660,14 @@
       }
 
       .mobile-bottom-nav a.active {
-        color: var(--cyan-light);
+        color: var(--cyan-soft);
 
         background:
           rgba(24, 232, 255, 0.08);
       }
 
-      /* Tombol beli dibuat menonjol */
       .mobile-bottom-nav .mobile-buy {
-        color: white;
+        color: #ffffff;
 
         background: transparent;
       }
@@ -1936,7 +2703,7 @@
       }
 
       .mobile-bottom-nav .mobile-buy.active {
-        color: white;
+        color: #ffffff;
 
         background: transparent;
       }
@@ -1960,8 +2727,7 @@
 
       .stat {
         padding:
-          23px
-          12px;
+          23px 12px;
       }
 
       .mobile-bottom-nav a {
@@ -1989,6 +2755,7 @@
 
       .reveal {
         opacity: 1;
+
         transform: none;
       }
     }
@@ -2019,6 +2786,7 @@
         </span>
       </a>
 
+
       <nav
         class="desktop-nav"
         aria-label="Navigasi desktop"
@@ -2043,6 +2811,13 @@
           data-nav="demo"
         >
           Demo
+        </a>
+
+        <a
+          href="#source"
+          data-nav="source"
+        >
+          Source
         </a>
 
         <a
@@ -2079,7 +2854,7 @@
         <div class="hero-copy reveal">
 
           <span class="eyebrow">
-            Premium Web Game Source Code
+            Google Apps Script Game Source Code
           </span>
 
           <h1>
@@ -2092,13 +2867,14 @@
 
           <p>
             Dapatkan full source code
+
             <strong>
               iMers Galactic Shooter
             </strong>.
 
             Game arcade luar angkasa yang ringan,
-            responsif, dan dapat dimainkan langsung
-            melalui browser.
+            responsif, dan berjalan menggunakan
+            Google Apps Script, HTML, CSS, dan JavaScript.
           </p>
 
           <div class="hero-actions">
@@ -2125,7 +2901,7 @@
 
             <span>
               <i>✓</i>
-              Full source code
+              Hanya 2 file
             </span>
 
             <span>
@@ -2163,19 +2939,52 @@
 
             </div>
 
-            <div class="preview">
 
-              <!--
-                Simpan screenshot game dengan nama:
-                game-preview.jpg
-              -->
+            <div class="game-preview">
 
-              <img
-                src="game-preview.jpg"
-                alt="Preview iMers Galactic Shooter"
-              >
+              <div class="stars"></div>
 
-              <div class="floating-status">
+              <div class="game-title">
+
+                <small>
+                  WHITELABEL GAME
+                </small>
+
+                <strong>
+                  iMers Galactic Shooter
+                </strong>
+
+              </div>
+
+              <div class="hud">
+
+                <span>
+                  SCORE 025840
+                </span>
+
+                <span>
+                  LEVEL 06
+                </span>
+
+                <span>
+                  HP 100%
+                </span>
+
+              </div>
+
+              <div class="enemy enemy-one"></div>
+
+              <div class="enemy enemy-two"></div>
+
+              <div class="enemy enemy-three"></div>
+
+              <div class="laser laser-one"></div>
+
+              <div class="laser laser-two"></div>
+
+              <div class="ship"></div>
+
+              <div class="status-chip">
 
                 <span class="pulse"></span>
 
@@ -2202,23 +3011,51 @@
         <div class="stats reveal">
 
           <div class="stat">
-            <strong>100%</strong>
-            <span>Source Code</span>
+
+            <strong>
+              2
+            </strong>
+
+            <span>
+              File Project
+            </span>
+
           </div>
 
           <div class="stat">
-            <strong>3</strong>
-            <span>Kelas Kapal</span>
+
+            <strong>
+              100%
+            </strong>
+
+            <span>
+              Source Code
+            </span>
+
           </div>
 
           <div class="stat">
-            <strong>Mobile</strong>
-            <span>Responsive</span>
+
+            <strong>
+              Mobile
+            </strong>
+
+            <span>
+              Responsive
+            </span>
+
           </div>
 
           <div class="stat">
-            <strong>1×</strong>
-            <span>Sekali Bayar</span>
+
+            <strong>
+              1×
+            </strong>
+
+            <span>
+              Sekali Bayar
+            </span>
+
           </div>
 
         </div>
@@ -2253,8 +3090,8 @@
           </h2>
 
           <p>
-            Struktur project sudah siap digunakan
-            untuk belajar, portfolio, modifikasi,
+            Project siap digunakan untuk belajar,
+            portfolio, modifikasi, rebranding,
             maupun dikembangkan menjadi game yang
             lebih besar.
           </p>
@@ -2276,8 +3113,7 @@
 
             <p>
               Mekanisme tembak otomatis yang nyaman
-              dimainkan menggunakan desktop maupun
-              layar sentuh.
+              dimainkan di desktop maupun layar sentuh.
             </p>
 
           </article>
@@ -2295,8 +3131,7 @@
 
             <p>
               Pilih Striker, Vanguard, atau Phantom
-              dengan karakteristik permainan yang
-              berbeda.
+              dengan karakteristik permainan berbeda.
             </p>
 
           </article>
@@ -2313,9 +3148,8 @@
             </h3>
 
             <p>
-              Tingkatkan kekuatan serangan selama
-              permainan dan hadapi lawan yang semakin
-              menantang.
+              Tingkatkan kekuatan serangan dan buat
+              progres permainan terasa semakin seru.
             </p>
 
           </article>
@@ -2332,8 +3166,8 @@
             </h3>
 
             <p>
-              Hadapi berbagai tipe musuh dengan pola
-              gerak dan tingkat kesulitan yang berbeda.
+              Hadapi berbagai tipe lawan dengan pola
+              gerak dan tingkat kesulitan berbeda.
             </p>
 
           </article>
@@ -2368,8 +3202,8 @@
             </h3>
 
             <p>
-              Layout responsif, tombol nyaman disentuh,
-              dan pengalaman bermain tetap rapi di HP.
+              Layout responsif, kontrol nyaman disentuh,
+              dan tampilan tetap rapi di ponsel.
             </p>
 
           </article>
@@ -2446,10 +3280,43 @@
 
               <div class="phone-screen">
 
-                <img
-                  src="game-preview.jpg"
-                  alt="Preview game versi mobile"
-                >
+                <div class="stars"></div>
+
+                <div class="game-title">
+
+                  <small>
+                    ARCADE SHOOTER
+                  </small>
+
+                  <strong>
+                    GALACTIC
+                  </strong>
+
+                </div>
+
+                <div class="hud">
+
+                  <span>
+                    025840
+                  </span>
+
+                  <span>
+                    LV 06
+                  </span>
+
+                </div>
+
+                <div class="enemy enemy-one"></div>
+
+                <div class="enemy enemy-two"></div>
+
+                <div class="enemy enemy-three"></div>
+
+                <div class="laser laser-one"></div>
+
+                <div class="laser laser-two"></div>
+
+                <div class="ship"></div>
 
               </div>
 
@@ -2464,11 +3331,12 @@
     </section>
 
 
-    <!-- INCLUDED -->
+    <!-- PROJECT STRUCTURE -->
 
     <section
       class="section"
-      id="included"
+      id="source"
+      data-section="source"
     >
 
       <div class="container">
@@ -2476,21 +3344,23 @@
         <div class="section-head reveal">
 
           <span class="eyebrow">
-            What You Get
+            Simple Project Structure
           </span>
 
           <h2>
-            Bukan Sekadar Game.
+            Project Sederhana.
 
             <span class="gradient-text">
-              Starter Project Siap Pakai.
+              Cuma 2 File.
             </span>
           </h2>
 
           <p>
-            Kamu mendapatkan fondasi project yang
-            dapat dipelajari, dimodifikasi, dan
-            disesuaikan dengan brand milikmu.
+            Tidak ada folder rumit.
+
+            Seluruh project Google Apps Script hanya
+            terdiri dari satu file backend dan satu
+            file frontend.
           </p>
 
         </div>
@@ -2505,39 +3375,77 @@
             </div>
 
             <h3>
-              Isi Paket Source Code
+              Yang Kamu Dapatkan
             </h3>
 
             <div class="check-list">
 
               <div class="check-item">
+
                 <b>✓</b>
-                <span>Full source code game</span>
+
+                <span>
+                  Full source code Google Apps Script
+                </span>
+
               </div>
 
               <div class="check-item">
+
                 <b>✓</b>
-                <span>HTML, CSS, dan JavaScript</span>
+
+                <span>
+                  <strong>Code.gs</strong>
+                  untuk server-side logic,
+                  penyimpanan data, dan deployment
+                  web app
+                </span>
+
               </div>
 
               <div class="check-item">
+
                 <b>✓</b>
-                <span>File Google Apps Script</span>
+
+                <span>
+                  <strong>Index.html</strong>
+                  berisi tampilan, CSS, JavaScript,
+                  dan gameplay
+                </span>
+
               </div>
 
               <div class="check-item">
+
                 <b>✓</b>
-                <span>Asset visual dan audio</span>
+
+                <span>
+                  Mudah mengganti nama, logo, warna,
+                  dan identitas game
+                </span>
+
               </div>
 
               <div class="check-item">
+
                 <b>✓</b>
-                <span>Struktur kode mudah dipelajari</span>
+
+                <span>
+                  Siap dijalankan sebagai Google
+                  Apps Script Web App
+                </span>
+
               </div>
 
               <div class="check-item">
+
                 <b>✓</b>
-                <span>Akses file setelah pembayaran</span>
+
+                <span>
+                  Cocok untuk belajar, portfolio,
+                  dan project whitelabel
+                </span>
+
               </div>
 
             </div>
@@ -2554,23 +3462,23 @@
               </span>
 
               <span>
-                ● READY
+                ● 2 FILES
               </span>
 
             </div>
 
-<pre><span class="code-cyan">📁 iMers-Galactic-Shooter</span>
+<pre><span class="code-cyan">📁 Whitelabel-Games-Galactic-Shooter</span>
 ├── <span class="code-pink">📄 Code.gs</span>
-├── <span class="code-pink">📄 index.html</span>
-├── <span class="code-yellow">📁 assets</span>
-│   ├── images
-│   ├── sounds
-│   └── effects
-├── <span class="code-yellow">📁 scripts</span>
-│   ├── game.js
-│   ├── enemies.js
-│   └── leaderboard.js
-└── <span class="code-cyan">📄 README</span></pre>
+│   └── <span class="code-muted">Server-side logic &amp; deployment</span>
+└── <span class="code-yellow">📄 Index.html</span>
+    └── <span class="code-muted">UI, CSS, JavaScript &amp; gameplay</span></pre>
+
+            <div class="two-files-badge">
+
+              ✓ Ringkas, mudah dipahami,
+              dan gampang dimodifikasi
+
+            </div>
 
           </div>
 
@@ -2633,6 +3541,186 @@
     </section>
 
 
+    <!-- INFORMASI PENTING -->
+
+    <section
+      class="section important-section"
+      id="important-information"
+    >
+
+      <div class="container">
+
+        <div class="important-box reveal">
+
+          <div class="important-header">
+
+            <div class="important-icon">
+              ⚠️
+            </div>
+
+            <div class="important-title">
+
+              <small>
+                Harap Dibaca
+              </small>
+
+              <h2>
+                Informasi Penting
+
+                <span class="gradient-text">
+                  Sebelum Membeli
+                </span>
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="important-content">
+
+            <div class="important-item">
+
+              <h3>
+                Final Source Code &amp; Kebijakan No Refund
+              </h3>
+
+              <p>
+                Produk yang diterima adalah versi final
+                source code pada saat pembelian dan tidak
+                termasuk pembaruan fitur di masa depan.
+              </p>
+
+              <p>
+                Anda dipersilakan mengedit, menyesuaikan,
+                serta mengembangkannya sendiri agar menjadi
+                lebih baik sesuai kebutuhan bisnis.
+              </p>
+
+            </div>
+
+
+            <div class="important-item no-refund-box">
+
+              <div class="no-refund-label">
+                ⛔ Kebijakan No Refund
+              </div>
+
+              <h3>
+                NO REFUND DENGAN ALASAN APA PUN
+              </h3>
+
+              <p>
+                Pastikan Anda sudah melihat demo, membaca
+                fitur, memahami kebutuhan hosting, serta
+                menyetujui syarat dan lisensi sebelum
+                melakukan pembayaran.
+              </p>
+
+
+              <div class="important-checklist">
+
+                <div class="important-check">
+
+                  <span class="important-check-icon">
+                    ✓
+                  </span>
+
+                  <span>
+                    Sudah membuka dan mencoba live demo
+                    game sebelum melakukan pembelian.
+                  </span>
+
+                </div>
+
+
+                <div class="important-check">
+
+                  <span class="important-check-icon">
+                    ✓
+                  </span>
+
+                  <span>
+                    Sudah membaca fitur, isi paket, dan
+                    struktur source code yang diterima.
+                  </span>
+
+                </div>
+
+
+                <div class="important-check">
+
+                  <span class="important-check-icon">
+                    ✓
+                  </span>
+
+                  <span>
+                    Sudah memahami bahwa project menggunakan
+                    Google Apps Script.
+                  </span>
+
+                </div>
+
+
+                <div class="important-check">
+
+                  <span class="important-check-icon">
+                    ✓
+                  </span>
+
+                  <span>
+                    Sudah memahami bahwa pembelian tidak
+                    termasuk pembaruan fitur di masa depan.
+                  </span>
+
+                </div>
+
+
+                <div class="important-check">
+
+                  <span class="important-check-icon">
+                    ✓
+                  </span>
+
+                  <span>
+                    Sudah memahami bahwa pembeli bertanggung
+                    jawab atas proses edit dan pengembangan
+                    lanjutan.
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="agreement-notice">
+
+                <span>
+                  ⚠️
+                </span>
+
+                <span>
+                  Dengan melakukan pembayaran, pembeli
+                  dianggap telah membaca, memahami, dan
+                  <strong>
+                    menyetujui seluruh ketentuan pembelian
+                    serta kebijakan no refund.
+                  </strong>
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
     <!-- FAQ -->
 
     <section
@@ -2668,9 +3756,25 @@
             </summary>
 
             <p>
-              Ya. Kamu mendapatkan file source code
-              sesuai isi paket yang ditampilkan pada
-              halaman ini.
+              Ya. Kamu mendapatkan project Google
+              Apps Script yang terdiri dari Code.gs
+              dan Index.html.
+            </p>
+
+          </details>
+
+
+          <details>
+
+            <summary>
+              Apakah project hanya memiliki dua file?
+            </summary>
+
+            <p>
+              Ya. Seluruh logic server berada di
+              Code.gs, sedangkan tampilan, CSS,
+              JavaScript, dan gameplay berada di
+              Index.html.
             </p>
 
           </details>
@@ -2708,14 +3812,44 @@
           <details>
 
             <summary>
-              Apakah source code cocok untuk pemula?
+              Apakah pembelian termasuk update fitur?
+            </summary>
+
+            <p>
+              Tidak. Produk yang diterima merupakan versi
+              final source code yang tersedia pada saat
+              transaksi dilakukan.
+            </p>
+
+          </details>
+
+
+          <details>
+
+            <summary>
+              Apakah pembelian bisa dibatalkan atau refund?
+            </summary>
+
+            <p>
+              Tidak. Produk digital yang sudah dibeli dan
+              dikirim tidak dapat dibatalkan atau direfund
+              dengan alasan apa pun.
+            </p>
+
+          </details>
+
+
+          <details>
+
+            <summary>
+              Apakah cocok untuk pemula?
             </summary>
 
             <p>
               Cocok untuk yang sudah memahami dasar
               HTML, CSS, JavaScript, dan ingin
-              mempelajari project game web yang sudah
-              berjalan.
+              mempelajari project Google Apps Script
+              yang sudah berjalan.
             </p>
 
           </details>
@@ -2742,7 +3876,8 @@
             </h2>
 
             <p>
-              Ambil source code-nya dan mulai
+              Pastikan sudah membaca informasi pembelian,
+              lalu ambil source code-nya dan mulai
               kembangkan versi game milikmu sendiri.
             </p>
 
@@ -2780,9 +3915,7 @@
   </footer>
 
 
-  <!-- =========================
-       MOBILE BOTTOM NAVBAR
-  ========================== -->
+  <!-- MOBILE BOTTOM NAVBAR -->
 
   <nav
     class="mobile-bottom-nav"
@@ -2866,22 +3999,24 @@
 
   <script>
     /*
-    ==============================================
-    GANTI NOMOR WHATSAPP DI BAWAH INI
+    ================================================
+    GANTI NOMOR WHATSAPP DI BAWAH
 
     Format:
     628xxxxxxxxxx
 
     Jangan memakai:
     +, spasi, atau tanda strip.
-    ==============================================
+    ================================================
     */
 
     const WHATSAPP_NUMBER =
       "6281234567890";
 
+
     const BUY_MESSAGE =
-      "Halo, saya ingin membeli Full Source Code iMers Galactic Shooter seharga Rp20.000.";
+      "Halo, saya ingin membeli Full Source Code iMers Galactic Shooter seharga Rp20.000. Saya sudah melihat demo serta membaca dan menyetujui ketentuan no refund.";
+
 
     const BUY_URL =
       "https://wa.me/" +
@@ -2891,18 +4026,21 @@
 
 
     /*
-    Memasukkan link WhatsApp ke semua tombol beli.
+    Memasukkan link WhatsApp ke seluruh tombol beli.
     */
 
     document
       .querySelectorAll("[data-buy]")
       .forEach(function (button) {
 
-        button.href = BUY_URL;
+        button.href =
+          BUY_URL;
 
-        button.target = "_blank";
+        button.target =
+          "_blank";
 
-        button.rel = "noopener";
+        button.rel =
+          "noopener";
 
       });
 
@@ -2918,11 +4056,12 @@
 
 
     /*
-    Efek navbar desktop saat halaman di-scroll.
+    Efek navbar ketika halaman di-scroll.
     */
 
     const topbar =
       document.getElementById("topbar");
+
 
     function updateTopbar() {
 
@@ -2933,7 +4072,9 @@
 
     }
 
+
     updateTopbar();
+
 
     window.addEventListener(
       "scroll",
@@ -2945,8 +4086,7 @@
 
 
     /*
-    Menu aktif otomatis mengikuti section.
-    Berlaku untuk navbar desktop dan mobile.
+    Menu aktif mengikuti section yang terlihat.
     */
 
     const navigationLinks =
@@ -2954,10 +4094,12 @@
         "[data-nav]"
       );
 
+
     const pageSections =
       document.querySelectorAll(
         "[data-section]"
       );
+
 
     const sectionObserver =
       new IntersectionObserver(
@@ -2980,11 +4122,13 @@
 
               });
 
+
           if (
             visibleSections.length === 0
           ) {
             return;
           }
+
 
           const currentSection =
             visibleSections[0]
@@ -2992,12 +4136,14 @@
               .dataset
               .section;
 
+
           navigationLinks.forEach(
             function (link) {
 
               const isCurrent =
                 link.dataset.nav ===
                 currentSection;
+
 
               link.classList.toggle(
                 "active",
@@ -3023,6 +4169,7 @@
 
       );
 
+
     pageSections.forEach(
       function (section) {
 
@@ -3035,13 +4182,14 @@
 
 
     /*
-    Animasi section saat muncul.
+    Animasi elemen ketika muncul.
     */
 
     const revealElements =
       document.querySelectorAll(
         ".reveal"
       );
+
 
     const revealObserver =
       new IntersectionObserver(
@@ -3060,6 +4208,7 @@
                   .classList
                   .add("show");
 
+
                 revealObserver
                   .unobserve(
                     entry.target
@@ -3077,6 +4226,7 @@
         }
 
       );
+
 
     revealElements.forEach(
       function (element) {
