@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Indonesia Jadi Miliarder</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            overscroll-behavior: none;
+        }
+
+        /* BENTUK KAPSUL KUIS (Pill Shape) */
+        .quiz-box {
+            background: linear-gradient(180deg, #1e3a8a 0%, #0f172a 100%);
+            border: 2px solid #fbbf24; /* Emas */
+            border-radius: 9999px; /* Melengkung penuh (Kapsul) */
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2), inset 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        /* Garis emas penyambung antar kotak */
+        .quiz-box::before, .quiz-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 2px;
+            background-color: #fbbf24;
+            box-shadow: 0 0 5px #fbbf24;
+            z-index: -1;
+        }
+        .quiz-box::before { left: -30px; }
+        .quiz-box::after { right: -30px; }
+        .no-lines::before, .no-lines::after { display: none; }
+
+        /* States for answer buttons */
+        .quiz-box:hover:not(.locked) {
+            background: linear-gradient(180deg, #2563eb 0%, #1e3a8a 100%);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+        }
+        .quiz-box.locked-orange {
+            background: linear-gradient(180deg, #f59e0b 0%, #b45309 100%);
+            border-color: #fef3c7;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.8);
+            color: white;
+            cursor: default;
+        }
+        .quiz-box.correct-green {
+            background: linear-gradient(180deg, #10b981 0%, #064e3b 100%);
+            border-color: #a7f3d0;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+            animation: pulse-green 1s infinite;
+        }
+        .quiz-box.wrong-red {
+            background: linear-gradient(180deg, #ef4444 0%, #7f1d1d 100%);
+            border-color: #fecaca;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+        }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(16, 185, 129, 1); }
+            100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
+        }
+
+        /* PAPAN HADIAH (MONEY TREE) */
+        .money-capsule {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: 'Share Tech Mono', monospace;
+            color: #f59e0b; 
+            background-color: #020617;
+            border: 2px solid #92400e;
+            border-radius: 9999px; 
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        @media (min-width: 1024px) {
+            .money-capsule {
+                padding: 4px 16px;
+                font-size: 1rem;
+            }
+        }
+        .money-capsule.milestone {
+            color: #ffffff; 
+            border-color: #fbbf24;
+            background-color: #1e3a8a;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
+        }
+        .money-capsule.active {
+            background: linear-gradient(90deg, #d97706 0%, #fbbf24 50%, #d97706 100%);
+            color: #000000 !important;
+            border-color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            text-shadow: none;
+        }
+        .money-capsule.passed {
+            color: #10b981; 
+            border-color: #064e3b;
+            background-color: transparent;
+            opacity: 0.6;
+        }
+
+        .text-glow-gold { text-shadow: 0 0 15px rgba(251, 191, 36, 1); }
+        .hidden { display: none !important; }
+        .disabled-lifeline { opacity: 0.2; cursor: not-allowed; pointer-events: none; filter: grayscale(100%); }
+        
+        .modal-overlay {
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-[100dvh] w-full">
+
+    <!-- START SCREEN -->
+    <div id="start-screen" class="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center">
+        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background: repeating-conic-gradient(from 0deg, transparent 0deg 15deg, #fbbf24 15deg 30deg);"></div>
+        
+        <div class="relative z-10 w-full max-w-lg">
+            <h1 class="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 via-yellow-400 to-yellow-700 mb-2 drop-shadow-[0_5px_5px_rgba(0,0,0,1)] leading-tight">
+                INDONESIA<br>
+                <span class="text-3xl md:text-5xl text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">JADI MILIARDER</span>
+            </h1>
+            <p class="text-indigo-200 mb-10 text-sm md:text-base font-semibold tracking-widest uppercase">Siapkan Mental Anda!</p>
+
+            <div class="bg-indigo-950/90 border-2 border-yellow-500/50 rounded-3xl p-8 shadow-[0_0_30px_rgba(251,191,36,0.2)] backdrop-blur-sm relative">
+                <h2 class="text-xl font-bold text-yellow-400 mb-6 uppercase tracking-widest">Pilih Level Kesulitan</h2>
+                
+                <div class="flex flex-col gap-4">
+                    <button class="btn-level bg-gradient-to-r from-emerald-600 to-emerald-800 hover:from-emerald-500 hover:to-emerald-700 text-white font-bold py-4 rounded-xl border-2 border-emerald-400/50 transition-all shadow-lg text-lg uppercase tracking-wider" data-level="PEMULA">
+                        Pemula (Mudah)
+                    </button>
+                    <button class="btn-level bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-4 rounded-xl border-2 border-blue-400/50 transition-all shadow-lg text-lg uppercase tracking-wider" data-level="MENENGAH">
+                        Menengah (Normal)
+                    </button>
+                    <button class="btn-level bg-gradient-to-r from-rose-600 to-rose-800 hover:from-rose-500 hover:to-rose-700 text-white font-bold py-4 rounded-xl border-2 border-rose-400/50 transition-all shadow-lg text-lg uppercase tracking-wider" data-level="SULIT">
+                        Sulit (Expert)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="game-screen" class="hidden flex-1 flex flex-col w-full max-w-7xl mx-auto h-full relative z-10 overflow-hidden">
+        
+        <!-- TOP HUD (Lifelines & Controls) -->
+        <header class="flex justify-between items-center p-4 md:p-6 shrink-0 relative z-20">
+            <!-- Lifelines -->
+            <div class="flex gap-3 md:gap-5 bg-black/40 p-2 md:p-3 rounded-full border border-yellow-500/30">
+                <button id="btn-5050" class="lifeline-btn w-12 h-8 md:w-16 md:h-10 bg-indigo-900 border-2 border-yellow-500 rounded-full flex items-center justify-center font-black text-yellow-400 text-xs md:text-sm hover:bg-indigo-700 transition-colors shadow-[0_0_15px_rgba(251,191,36,0.4)]">
+                    50:50
+                </button>
+                <button id="btn-audience" class="lifeline-btn w-12 h-8 md:w-16 md:h-10 bg-indigo-900 border-2 border-yellow-500 rounded-full flex items-center justify-center font-black text-yellow-400 text-sm md:text-base hover:bg-indigo-700 transition-colors shadow-[0_0_15px_rgba(251,191,36,0.4)]">
+                    👥
+                </button>
+                <button id="btn-phone" class="lifeline-btn w-12 h-8 md:w-16 md:h-10 bg-indigo-900 border-2 border-yellow-500 rounded-full flex items-center justify-center font-black text-yellow-400 text-sm md:text-base hover:bg-indigo-700 transition-colors shadow-[0_0_15px_rgba(251,191,36,0.4)]">
+                    📞
+                </button>
+            </div>
+
+            <!-- Controls (Music & Walk Away) -->
+            <div class="flex flex-col items-end gap-2">
+                <div class="flex items-center gap-2">
+                    <button id="btn-mute" class="text-xs md:text-sm font-bold text-yellow-400 bg-slate-800/80 px-3 py-2 rounded-full border border-slate-600 hover:bg-slate-700 transition-colors shadow-lg flex items-center gap-1">
+                        <span id="mute-icon">🔊</span> <span id="mute-text" class="hidden md:inline">ON</span>
+                    </button>
+                    <button id="btn-walkaway" class="text-xs md:text-sm font-bold text-slate-300 hover:text-white bg-slate-800/80 px-4 py-2 rounded-full border border-slate-600 transition-colors shadow-lg">
+                        Bawa Pulang Uang
+                    </button>
+                </div>
+                <!-- Mobile Money Indicator -->
+                <div class="md:hidden text-yellow-400 font-bold text-sm bg-black/60 px-4 py-1.5 rounded-full border border-yellow-500/50 shadow-[0_0_10px_rgba(251,191,36,0.2)]">
+                    <span id="mobile-current-q">Q1</span>: <span id="mobile-current-money" class="font-mono">Rp 50.000</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CENTER AREA (Soal di Kiri, Uang di Kanan) -->
+        <main class="flex-1 flex flex-col md:flex-row p-2 md:p-4 lg:p-6 gap-4 lg:gap-10 h-full min-h-0 w-full">
+            
+            <!-- LEFT: SOAL & JAWABAN -->
+            <div class="flex-1 flex flex-col justify-end md:justify-center w-full mx-auto pb-6 md:pb-0 relative z-10">
+                
+                <!-- Kotak Pertanyaan -->
+                <div class="quiz-box no-lines w-[90%] md:w-full mx-auto py-8 md:py-12 px-6 md:px-14 mb-8 md:mb-12 text-center min-h-[140px] md:min-h-[180px] flex items-center justify-center z-20 shadow-2xl">
+                    <p id="question-text" class="text-lg md:text-3xl font-bold leading-relaxed text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                        Mempersiapkan pertanyaan...
+                    </p>
+                </div>
+
+                <!-- Grid Pilihan Jawaban -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-0 md:gap-x-12 md:gap-y-6 w-[85%] md:w-full mx-auto relative z-10">
+                    <button class="option-btn quiz-box flex items-center text-left py-3 md:py-5 px-6 md:px-8 group" data-index="0">
+                        <span class="text-yellow-400 font-black text-xl md:text-2xl mr-4 w-6 group-hover:text-white transition-colors">A:</span>
+                        <span id="option-0-text" class="text-base md:text-xl font-semibold text-slate-100 flex-1">...</span>
+                    </button>
+                    
+                    <button class="option-btn quiz-box flex items-center text-left py-3 md:py-5 px-6 md:px-8 group" data-index="1">
+                        <span class="text-yellow-400 font-black text-xl md:text-2xl mr-4 w-6 group-hover:text-white transition-colors">B:</span>
+                        <span id="option-1-text" class="text-base md:text-xl font-semibold text-slate-100 flex-1">...</span>
+                    </button>
+                    
+                    <button class="option-btn quiz-box flex items-center text-left py-3 md:py-5 px-6 md:px-8 group" data-index="2">
+                        <span class="text-yellow-400 font-black text-xl md:text-2xl mr-4 w-6 group-hover:text-white transition-colors">C:</span>
+                        <span id="option-2-text" class="text-base md:text-xl font-semibold text-slate-100 flex-1">...</span>
+                    </button>
+                    
+                    <button class="option-btn quiz-box flex items-center text-left py-3 md:py-5 px-6 md:px-8 group" data-index="3">
+                        <span class="text-yellow-400 font-black text-xl md:text-2xl mr-4 w-6 group-hover:text-white transition-colors">D:</span>
+                        <span id="option-3-text" class="text-base md:text-xl font-semibold text-slate-100 flex-1">...</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT: MONEY TREE -->
+            <div class="hidden md:flex w-56 lg:w-80 flex-col bg-indigo-950/80 border-2 border-yellow-500/50 rounded-3xl shadow-[0_0_20px_rgba(251,191,36,0.15)] overflow-hidden shrink-0 my-auto h-[90%]">
+                <div class="bg-gradient-to-b from-indigo-900 to-indigo-950 text-center py-4 border-b border-yellow-500/30 shadow-lg relative z-10">
+                    <h3 class="text-yellow-400 font-black tracking-widest uppercase text-sm drop-shadow-md">Tingkat Hadiah</h3>
+                </div>
+                <div class="flex-1 flex flex-col justify-end p-5 pb-6 gap-0.5 overflow-y-auto" id="desktop-money-tree">
+                    <!-- Diisi lewat JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: AUDIENCE RESULT -->
+    <div id="modal-audience" class="modal-overlay hidden absolute inset-0 z-50 flex items-center justify-center p-4">
+        <div class="bg-indigo-950 border-2 border-yellow-500 rounded-3xl p-8 w-full max-w-sm shadow-[0_0_30px_rgba(251,191,36,0.3)] text-center">
+            <h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase tracking-widest">Suara Penonton</h3>
+            <div class="flex items-end justify-center h-48 gap-5 mb-6 border-b-2 border-slate-600 pb-2">
+                <div class="flex flex-col items-center w-12">
+                    <span id="aud-val-0" class="text-sm font-bold mb-2 text-slate-300">0%</span>
+                    <div id="aud-bar-0" class="w-full bg-blue-500 rounded-t-md transition-all duration-1000 h-0"></div>
+                    <span class="text-yellow-400 font-black text-xl mt-3">A</span>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span id="aud-val-1" class="text-sm font-bold mb-2 text-slate-300">0%</span>
+                    <div id="aud-bar-1" class="w-full bg-blue-500 rounded-t-md transition-all duration-1000 h-0"></div>
+                    <span class="text-yellow-400 font-black text-xl mt-3">B</span>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span id="aud-val-2" class="text-sm font-bold mb-2 text-slate-300">0%</span>
+                    <div id="aud-bar-2" class="w-full bg-blue-500 rounded-t-md transition-all duration-1000 h-0"></div>
+                    <span class="text-yellow-400 font-black text-xl mt-3">C</span>
+                </div>
+                <div class="flex flex-col items-center w-12">
+                    <span id="aud-val-3" class="text-sm font-bold mb-2 text-slate-300">0%</span>
+                    <div id="aud-bar-3" class="w-full bg-blue-500 rounded-t-md transition-all duration-1000 h-0"></div>
+                    <span class="text-yellow-400 font-black text-xl mt-3">D</span>
+                </div>
+            </div>
+            <button class="close-modal bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold border border-slate-600">TUTUP</button>
+        </div>
+    </div>
+
+    <!-- MODAL: PHONE A FRIEND -->
+    <div id="modal-phone" class="modal-overlay hidden absolute inset-0 z-50 flex items-center justify-center p-4">
+        <div class="bg-indigo-950 border-2 border-yellow-500 rounded-3xl p-8 w-full max-w-md shadow-[0_0_30px_rgba(251,191,36,0.3)] text-center">
+            <h3 class="text-2xl font-black text-yellow-400 mb-2 uppercase tracking-widest">Telepon Teman</h3>
+            <div class="animate-bounce mb-6 text-5xl mt-4">📞</div>
+            <p id="phone-text" class="text-slate-200 italic mb-8 bg-black/40 p-6 rounded-2xl border border-slate-700 text-lg leading-relaxed shadow-inner">
+                "Halo... waduh, pertanyaannya susah juga."
+            </p>
+            <button class="close-modal bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold border border-slate-600">TUTUP</button>
+        </div>
+    </div>
+
+    <!-- MODAL: RESULT -->
+    <div id="modal-result" class="modal-overlay hidden absolute inset-0 z-[60] flex items-center justify-center p-4 text-center">
+        <div class="bg-slate-900 border-2 border-yellow-500 rounded-3xl p-8 md:p-12 w-full max-w-lg shadow-[0_0_50px_rgba(251,191,36,0.3)] relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-blue-900/40 to-transparent pointer-events-none"></div>
+            
+            <h2 id="result-title" class="text-4xl md:text-5xl font-black text-white mb-2 relative z-10">PERMAINAN BERAKHIR</h2>
+            <p id="result-subtitle" class="text-slate-300 mb-8 relative z-10 text-lg">Sayang sekali jawaban Anda salah!</p>
+            
+            <div class="bg-black/80 rounded-2xl p-6 border border-yellow-500/50 mb-10 relative z-10 shadow-inner">
+                <p class="text-sm text-yellow-500 font-bold uppercase tracking-widest mb-2">Total Hadiah Dibawa Pulang</p>
+                <p id="result-money" class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-600 text-glow-gold font-mono">
+                    Rp 0
+                </p>
+            </div>
+
+            <button id="btn-restart" class="relative z-10 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 text-white font-black py-4 px-10 rounded-full border border-blue-400/50 transition-all shadow-[0_0_20px_rgba(59,130,246,0.6)] w-full text-xl uppercase tracking-widest">
+                MAIN LAGI
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA KUIS & HADIAH ---
+        const MONEY_TREE = [
+            "Rp 50.000", "Rp 100.000", "Rp 200.000", "Rp 500.000", "Rp 1.000.000", 
+            "Rp 2.000.000", "Rp 4.000.000", "Rp 8.000.000", "Rp 16.000.000", "Rp 32.000.000", 
+            "Rp 64.000.000", "Rp 125.000.000", "Rp 250.000.000", "Rp 500.000.000", "Rp 1.000.000.000"
+        ];
+        const SAFE_ZONES = [4, 9, 14]; // Index 4 (Rp 1jt), 9 (Rp 32jt), 14 (Rp 1M)
+
+        const dbPemula = [
+            { q: "Apa warna bendera negara Indonesia?", o: ["Merah Putih", "Putih Merah", "Merah Hitam", "Biru Putih"], a: 0 },
+            { q: "Siapa Presiden pertama Republik Indonesia?", o: ["Soeharto", "B.J. Habibie", "Soekarno", "Megawati"], a: 2 },
+            { q: "Ibukota negara Indonesia saat ini adalah?", o: ["Surabaya", "Jakarta", "Bandung", "IKN"], a: 1 },
+            { q: "Binatang apa yang memiliki belalai panjang?", o: ["Jerapah", "Gajah", "Harimau", "Badak"], a: 1 },
+            { q: "Apa nama mata uang Indonesia?", o: ["Ringgit", "Dollar", "Baht", "Rupiah"], a: 3 },
+            { q: "Alat bernafas pada ikan adalah?", o: ["Insang", "Trakea", "Paru-paru", "Kulit"], a: 0 },
+            { q: "Benda langit yang bersinar di malam hari?", o: ["Matahari", "Bulan", "Awan", "Pelangi"], a: 1 },
+            { q: "Rasa air laut adalah?", o: ["Manis", "Asin", "Pahit", "Asam"], a: 1 },
+            { q: "Candi Borobudur terletak di provinsi?", o: ["Jawa Tengah", "Jawa Timur", "DIY", "Bali"], a: 0 },
+            { q: "Berapa jumlah kaki pada laba-laba?", o: ["6", "8", "4", "10"], a: 1 },
+            { q: "Bumbu dapur yang rasanya pedas?", o: ["Gula", "Garam", "Cabai", "Lada"], a: 2 },
+            { q: "Kendaraan roda dua disebut?", o: ["Mobil", "Becak", "Sepeda Motor", "Bus"], a: 2 },
+            { q: "Lagu kebangsaan Indonesia adalah?", o: ["Indonesia Pusaka", "Indonesia Raya", "Garuda Pancasila", "Bagimu Negeri"], a: 1 },
+            { q: "Vitamin C banyak terdapat pada buah?", o: ["Apel", "Pisang", "Jeruk", "Semangka"], a: 2 },
+            { q: "Pohon yang batangnya berduri dan menghasilkan buah manis berbau menyengat?", o: ["Rambutan", "Nangka", "Durian", "Sirsak"], a: 2 }
+        ];
+
+        const dbMenengah = [
+            { q: "Tahun berapa Indonesia merdeka?", o: ["1942", "1945", "1948", "1950"], a: 1 },
+            { q: "Sungai terpanjang di pulau Jawa adalah?", o: ["Ciliwung", "Kapuas", "Bengawan Solo", "Musi"], a: 2 },
+            { q: "Siapa penemu benua Amerika?", o: ["James Cook", "Vasco da Gama", "Christopher Columbus", "Marco Polo"], a: 2 },
+            { q: "Planet terdekat dari matahari?", o: ["Venus", "Bumi", "Merkurius", "Mars"], a: 2 },
+            { q: "Simbol kimia untuk Emas?", o: ["Ag", "Au", "Fe", "Cu"], a: 1 },
+            { q: "Gunung tertinggi di Indonesia?", o: ["Rinjani", "Semeru", "Kerinci", "Puncak Jaya"], a: 3 },
+            { q: "Siapa pencipta lagu Indonesia Raya?", o: ["W.R. Supratman", "Ismail Marzuki", "C. Simanjuntak", "Kusbini"], a: 0 },
+            { q: "Suku Bugis berasal dari provinsi?", o: ["Sulawesi Utara", "Sulawesi Selatan", "Sumatera Barat", "Kalimantan Timur"], a: 1 },
+            { q: "Penulis novel 'Laskar Pelangi'?", o: ["Andrea Hirata", "Tere Liye", "Raditya Dika", "Habiburrahman"], a: 0 },
+            { q: "Organisasi PBB yang mengurus pendidikan dan budaya?", o: ["WHO", "UNICEF", "UNESCO", "FAO"], a: 2 },
+            { q: "Julukan kota pahlawan?", o: ["Jakarta", "Bandung", "Surabaya", "Semarang"], a: 2 },
+            { q: "Mamalia laut berukuran raksasa adalah?", o: ["Paus", "Hiu", "Lumba-lumba", "Anjing Laut"], a: 0 },
+            { q: "Nama asli Kapitan Pattimura?", o: ["Thomas Matulessy", "Tuanku Imam Bonjol", "Teuku Umar", "Pangeran Diponegoro"], a: 0 },
+            { q: "Alat musik angklung berasal dari?", o: ["Jawa Tengah", "Jawa Barat", "Jawa Timur", "Bali"], a: 1 },
+            { q: "Satuan tegangan listrik?", o: ["Watt", "Ampere", "Ohm", "Volt"], a: 3 }
+        ];
+
+        const dbSulit = [
+            { q: "Candi Prambanan dibangun pada abad ke?", o: ["7", "8", "9", "10"], a: 2 },
+            { q: "Unsur kimia penyusun berlian adalah?", o: ["Kalsium", "Karbon", "Silikon", "Titanium"], a: 1 },
+            { q: "Siapa Perdana Menteri pertama Indonesia?", o: ["Mohammad Hatta", "Sutan Sjahrir", "Amir Sjarifuddin", "Ali Sastroamidjojo"], a: 1 },
+            { q: "Berapa banyak tulang pada tubuh manusia dewasa?", o: ["206", "208", "212", "215"], a: 0 },
+            { q: "Penghargaan tertinggi di bidang matematika setara Nobel?", o: ["Fields Medal", "Abel Prize", "Turing Award", "Pulitzer"], a: 0 },
+            { q: "Novel 'Bumi Manusia' mengambil latar masa?", o: ["Orde Baru", "Pergerakan Nasional (Kolonial)", "Kemerdekaan", "Reformasi"], a: 1 },
+            { q: "Sistem pemerintahan dimana kekuasaan dipegang oleh beberapa orang elit?", o: ["Otokrasi", "Oligarki", "Monarki", "Plutokrasi"], a: 1 },
+            { q: "Garis bujur 0 derajat melewati kota?", o: ["Paris", "New York", "Greenwich", "Mekkah"], a: 2 },
+            { q: "Hormon pengatur gula darah?", o: ["Adrenalin", "Tiroksin", "Insulin", "Testosteron"], a: 2 },
+            { q: "Perjanjian yang membagi kerajaan Mataram menjadi dua?", o: ["Linggarjati", "Roem Royen", "Giyanti", "Salatiga"], a: 2 },
+            { q: "Nama ilmiah dari Harimau Sumatera?", o: ["Panthera tigris sondaica", "Panthera tigris sumatrae", "Panthera tigris balica", "Felis tigris"], a: 1 },
+            { q: "Gas terbanyak di atmosfer bumi?", o: ["Oksigen", "Karbondioksida", "Nitrogen", "Argon"], a: 2 },
+            { q: "Pencipta sistem operasi Linux?", o: ["Bill Gates", "Steve Jobs", "Linus Torvalds", "Dennis Ritchie"], a: 2 },
+            { q: "Lukisan 'Monalisa' dibuat oleh?", o: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"], a: 2 },
+            { q: "Konferensi Asia Afrika pertama kali diadakan di?", o: ["Jakarta", "Bandung", "Bogor", "Denpasar"], a: 1 }
+        ];
+
+        // --- SYNTHESIZER AUDIO WWTBAM (No External URLs) ---
+        class WWTBAM_Synth {
+            constructor() { 
+                this.ctx = null; 
+                this.masterGain = null;
+                this.isMuted = false;
+                
+                this.droneOsc = null; 
+                this.droneGain = null; 
+                this.heartbeatOsc = null;
+                this.droneInterval = null;
+            }
+            
+            init() { 
+                if(!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)(); 
+                    this.masterGain = this.ctx.createGain();
+                    this.masterGain.connect(this.ctx.destination);
+                    this.updateMute();
+                }
+            }
+
+            toggleMute() {
+                this.isMuted = !this.isMuted;
+                this.updateMute();
+                return this.isMuted;
+            }
+
+            updateMute() {
+                if(this.masterGain) {
+                    this.masterGain.gain.value = this.isMuted ? 0 : 1;
+                }
+            }
+            
+            playTone(freq, type, duration, vol, slideFreq=null) {
+                if(!this.ctx || this.isMuted) return;
+                try {
+                    let osc = this.ctx.createOscillator();
+                    let gain = this.ctx.createGain();
+                    osc.type = type; 
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    if(slideFreq) osc.frequency.exponentialRampToValueAtTime(slideFreq, this.ctx.currentTime + duration);
+                    gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain); gain.connect(this.masterGain);
+                    osc.start(); osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+
+            select() { this.playTone(400, 'square', 0.1, 0.05); }
+            
+            // Suara Kunci Jawaban (Suspense)
+            locked() { 
+                if(!this.ctx || this.isMuted) return;
+                // Suara "Twing" naik
+                this.playTone(300, 'sine', 0.5, 0.1, 600);
+            }
+            
+            // Nada Jawaban Benar WWTBAM (C Major Chord megah)
+            correct() { 
+                if(!this.ctx || this.isMuted) return;
+                [261.63, 329.63, 392.00, 523.25].forEach((freq, i) => { // C4, E4, G4, C5
+                    let osc = this.ctx.createOscillator();
+                    let gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.1, this.ctx.currentTime + 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 2.0);
+                    osc.connect(gain); gain.connect(this.masterGain);
+                    osc.start(); osc.stop(this.ctx.currentTime + 2.0);
+                });
+            }
+            
+            // Nada Salah WWTBAM (Dissonant drop)
+            wrong() { 
+                if(!this.ctx || this.isMuted) return;
+                [261.63, 185.00, 130.81].forEach((freq, i) => { // C4, Gb3, C3 (Tritone Drop)
+                    let osc = this.ctx.createOscillator();
+                    let gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(freq * 0.8, this.ctx.currentTime + 1.5);
+                    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.5);
+                    osc.connect(gain); gain.connect(this.masterGain);
+                    osc.start(); osc.stop(this.ctx.currentTime + 1.5);
+                });
+            }
+
+            win() {
+                if(!this.ctx || this.isMuted) return;
+                [261.63, 329.63, 392.00, 523.25, 659.25, 783.99].forEach((f, i) => {
+                    setTimeout(() => this.playTone(f, 'square', 0.5, 0.1), i * 150);
+                });
+            }
+            
+            // WWTBAM Eerie Background Drone + Heartbeat
+            startDrone() {
+                if(!this.ctx) return;
+                this.stopDrone();
+                if(this.isMuted) return;
+
+                try {
+                    // Eerie Pad (C2 & G2)
+                    this.droneOsc = this.ctx.createOscillator();
+                    this.droneGain = this.ctx.createGain();
+                    this.droneOsc.type = 'triangle';
+                    this.droneOsc.frequency.value = 65.41; // C2
+                    
+                    this.droneGain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                    this.droneOsc.connect(this.droneGain);
+                    this.droneGain.connect(this.masterGain);
+                    this.droneOsc.start();
+
+                    // Heartbeat simulator
+                    let beatTime = 1.0; // 60 BPM default
+                    const beat = () => {
+                        if(!this.droneOsc) return;
+                        this.playTone(50, 'sine', 0.2, 0.3); // thump
+                        setTimeout(() => this.playTone(55, 'sine', 0.3, 0.2), 150); // ba-dump
+                        this.droneInterval = setTimeout(beat, beatTime * 1000);
+                    };
+                    beat();
+                } catch(e) {}
+            }
+            
+            suspenseLock() {
+                if(!this.ctx || this.isMuted) return;
+                // Bikin Pad nya naik dikit tegang, Heartbeat dicepetin
+                if(this.droneOsc) {
+                    this.droneOsc.frequency.linearRampToValueAtTime(73.42, this.ctx.currentTime + 2.0); // Naik ke D2
+                    clearTimeout(this.droneInterval);
+                    
+                    let beatTime = 0.4; // Lebih cepat
+                    const fastBeat = () => {
+                        if(!this.droneOsc) return;
+                        this.playTone(60, 'sine', 0.1, 0.3); 
+                        setTimeout(() => this.playTone(65, 'sine', 0.2, 0.2), 100); 
+                        this.droneInterval = setTimeout(fastBeat, beatTime * 1000);
+                    };
+                    fastBeat();
+                }
+            }
+            
+            stopDrone() {
+                if(this.droneOsc) { try { this.droneOsc.stop(); this.droneOsc.disconnect(); } catch(e){} this.droneOsc = null; }
+                if(this.droneInterval) { clearTimeout(this.droneInterval); this.droneInterval = null; }
+            }
+        }
+        const sfx = new WWTBAM_Synth();
+
+        // --- GAME LOGIC ---
+        let currentLevel = 'PEMULA';
+        let currentQuestions = [];
+        let currentQIndex = 0;
+        let isInputLocked = false;
+        let lifelines = { fifty: true, audience: true, phone: true };
+
+        const UI = {
+            startScreen: document.getElementById('start-screen'),
+            gameScreen: document.getElementById('game-screen'),
+            questionText: document.getElementById('question-text'),
+            options: document.querySelectorAll('.option-btn'),
+            btnFifty: document.getElementById('btn-5050'),
+            btnAudience: document.getElementById('btn-audience'),
+            btnPhone: document.getElementById('btn-phone'),
+            btnWalkaway: document.getElementById('btn-walkaway'),
+            btnMute: document.getElementById('btn-mute'),
+            muteIcon: document.getElementById('mute-icon'),
+            muteText: document.getElementById('mute-text'),
+            treeDesktop: document.getElementById('desktop-money-tree'),
+            mobileQ: document.getElementById('mobile-current-q'),
+            mobileMoney: document.getElementById('mobile-current-money'),
+            modalAudience: document.getElementById('modal-audience'),
+            modalPhone: document.getElementById('modal-phone'),
+            modalResult: document.getElementById('modal-result'),
+            resultTitle: document.getElementById('result-title'),
+            resultSubtitle: document.getElementById('result-subtitle'),
+            resultMoney: document.getElementById('result-money'),
+            btnRestart: document.getElementById('btn-restart'),
+            closeModals: document.querySelectorAll('.close-modal')
+        };
+
+        // --- EVENT LISTENERS ---
+        document.querySelectorAll('.btn-level').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                sfx.init(); sfx.select();
+                currentLevel = e.target.dataset.level;
+                startGame();
+            });
+        });
+
+        UI.btnMute.addEventListener('click', () => {
+            sfx.init();
+            const isMuted = sfx.toggleMute();
+            if(isMuted) {
+                UI.muteIcon.textContent = '🔈';
+                UI.muteText.textContent = 'OFF';
+                UI.btnMute.classList.replace('text-yellow-400', 'text-slate-400');
+            } else {
+                UI.muteIcon.textContent = '🔊';
+                UI.muteText.textContent = 'ON';
+                UI.btnMute.classList.replace('text-slate-400', 'text-yellow-400');
+                if(!UI.gameScreen.classList.contains('hidden') && !isInputLocked) {
+                    sfx.startDrone(); // Re-start if in game
+                }
+            }
+        });
+
+        UI.btnRestart.addEventListener('click', () => {
+            sfx.select();
+            UI.modalResult.classList.add('hidden');
+            UI.gameScreen.classList.add('hidden');
+            UI.startScreen.classList.remove('hidden');
+        });
+
+        UI.btnWalkaway.addEventListener('click', () => {
+            if(isInputLocked) return;
+            endGame('WALKAWAY');
+        });
+
+        UI.options.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if(isInputLocked) return;
+                sfx.init();
+                const idx = parseInt(btn.dataset.index);
+                handleAnswer(btn, idx);
+            });
+        });
+
+        UI.closeModals.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                sfx.select();
+                e.target.closest('.modal-overlay').classList.add('hidden');
+            });
+        });
+
+        UI.btnFifty.addEventListener('click', () => useLifeline('FIFTY'));
+        UI.btnAudience.addEventListener('click', () => useLifeline('AUDIENCE'));
+        UI.btnPhone.addEventListener('click', () => useLifeline('PHONE'));
+
+        // --- CORE FUNCTIONS ---
+        function startGame() {
+            if(currentLevel === 'PEMULA') currentQuestions = [...dbPemula];
+            else if(currentLevel === 'MENENGAH') currentQuestions = [...dbMenengah];
+            else currentQuestions = [...dbSulit];
+            
+            currentQIndex = 0;
+            lifelines = { fifty: true, audience: true, phone: true };
+            
+            UI.btnFifty.classList.remove('disabled-lifeline');
+            UI.btnAudience.classList.remove('disabled-lifeline');
+            UI.btnPhone.classList.remove('disabled-lifeline');
+            
+            buildMoneyTree();
+            
+            UI.startScreen.classList.add('hidden');
+            UI.gameScreen.classList.remove('hidden');
+            
+            loadQuestion();
+        }
+
+        function buildMoneyTree() {
+            UI.treeDesktop.innerHTML = '';
+            for(let i = 14; i >= 0; i--) {
+                const row = document.createElement('div');
+                row.className = `money-capsule`;
+                if (SAFE_ZONES.includes(i)) row.classList.add('milestone');
+                row.id = `tree-item-${i}`;
+                row.innerHTML = `<span>${i+1}</span> <span>♦ ${MONEY_TREE[i]}</span>`;
+                UI.treeDesktop.appendChild(row);
+            }
+        }
+
+        function loadQuestion() {
+            isInputLocked = false;
+            const qData = currentQuestions[currentQIndex];
+            
+            sfx.startDrone(); // Musik Background Tegang
+            
+            UI.questionText.textContent = qData.q;
+            UI.options.forEach((btn, idx) => {
+                btn.className = 'option-btn quiz-box flex items-center text-left py-3 md:py-5 px-6 md:px-8 group'; 
+                btn.classList.remove('hidden'); 
+                btn.disabled = false;
+                document.getElementById(`option-${idx}-text`).textContent = qData.o[idx];
+            });
+
+            // Update Papan Hadiah Kanan
+            for(let i = 0; i < 15; i++) {
+                const item = document.getElementById(`tree-item-${i}`);
+                if(!item) continue;
+                item.classList.remove('active', 'passed');
+                if (i < currentQIndex) item.classList.add('passed');
+                if (i === currentQIndex) item.classList.add('active');
+            }
+
+            UI.mobileQ.textContent = `Q${currentQIndex + 1}`;
+            UI.mobileMoney.textContent = MONEY_TREE[currentQIndex];
+        }
+
+        function handleAnswer(selectedBtn, selectedIndex) {
+            isInputLocked = true;
+            sfx.locked(); // Bunyi ting
+            sfx.suspenseLock(); // Drone makin cepat & naik nada
+            
+            selectedBtn.classList.add('locked', 'locked-orange');
+            
+            const qData = currentQuestions[currentQIndex];
+            const isCorrect = (selectedIndex === qData.a);
+
+            // Tahan 2.5 Detik buat deg-degan
+            setTimeout(() => {
+                selectedBtn.classList.remove('locked-orange');
+                sfx.stopDrone();
+
+                if (isCorrect) {
+                    sfx.correct();
+                    selectedBtn.classList.add('correct-green');
+                    setTimeout(() => {
+                        currentQIndex++;
+                        if(currentQIndex > 14) endGame('WIN');
+                        else loadQuestion();
+                    }, 2500); 
+                } else {
+                    sfx.wrong();
+                    selectedBtn.classList.add('wrong-red');
+                    UI.options[qData.a].classList.add('correct-green'); // Kasih tau yg bener
+                    setTimeout(() => endGame('LOSE'), 3000); 
+                }
+            }, 2500); 
+        }
+
+        function getSafeMoney() {
+            if (currentQIndex > 9) return MONEY_TREE[9]; // 32jt
+            if (currentQIndex > 4) return MONEY_TREE[4]; // 1jt
+            return "Rp 0";
+        }
+
+        function endGame(reason) {
+            sfx.stopDrone(); 
+            UI.modalResult.classList.remove('hidden');
+            
+            if (reason === 'WIN') {
+                sfx.win();
+                UI.resultTitle.textContent = "LUAR BIASA!";
+                UI.resultTitle.className = "text-4xl md:text-5xl font-black text-emerald-400 mb-2 relative z-10 text-glow-gold";
+                UI.resultSubtitle.textContent = "Anda berhasil menjawab ke-15 pertanyaan!";
+                UI.resultMoney.textContent = MONEY_TREE[14]; 
+            } else if (reason === 'WALKAWAY') {
+                UI.resultTitle.textContent = "PILIHAN BIJAK";
+                UI.resultTitle.className = "text-4xl md:text-5xl font-black text-blue-400 mb-2 relative z-10";
+                UI.resultSubtitle.textContent = "Anda memutuskan untuk berhenti dan mengamankan uang.";
+                UI.resultMoney.textContent = currentQIndex > 0 ? MONEY_TREE[currentQIndex - 1] : "Rp 0";
+            } else { 
+                UI.resultTitle.textContent = "SAYANG SEKALI";
+                UI.resultTitle.className = "text-4xl md:text-5xl font-black text-red-500 mb-2 relative z-10";
+                UI.resultSubtitle.textContent = "Jawaban Anda kurang tepat. Anda harus turun ke titik aman.";
+                UI.resultMoney.textContent = getSafeMoney();
+            }
+        }
+
+        function useLifeline(type) {
+            if (isInputLocked) return;
+            const qData = currentQuestions[currentQIndex];
+
+            if (type === 'FIFTY' && lifelines.fifty) {
+                lifelines.fifty = false;
+                UI.btnFifty.classList.add('disabled-lifeline');
+                sfx.select();
+                
+                let wrongOptions = [0, 1, 2, 3].filter(idx => idx !== qData.a);
+                wrongOptions.sort(() => Math.random() - 0.5);
+                
+                UI.options[wrongOptions[0]].style.opacity = '0';
+                UI.options[wrongOptions[1]].style.opacity = '0';
+                
+                setTimeout(() => {
+                    UI.options[wrongOptions[0]].classList.add('hidden');
+                    UI.options[wrongOptions[1]].classList.add('hidden');
+                    UI.options[wrongOptions[0]].style.opacity = '1';
+                    UI.options[wrongOptions[1]].style.opacity = '1';
+                }, 300);
+            }
+            else if (type === 'AUDIENCE' && lifelines.audience) {
+                lifelines.audience = false;
+                UI.btnAudience.classList.add('disabled-lifeline');
+                sfx.select();
+                
+                for(let i=0; i<4; i++) {
+                    document.getElementById(`aud-val-${i}`).textContent = '0%';
+                    document.getElementById(`aud-bar-${i}`).style.height = '0%';
+                    document.getElementById(`aud-bar-${i}`).className = `w-full rounded-t-md transition-all duration-1000 h-0 bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]`;
+                }
+
+                let remains = 100;
+                let percentages = [0,0,0,0];
+                let correctBase = currentLevel === 'PEMULA' ? 70 : (currentLevel === 'MENENGAH' ? 50 : 35);
+                let correctPerc = correctBase + Math.floor(Math.random() * 20);
+                
+                percentages[qData.a] = correctPerc;
+                remains -= correctPerc;
+                
+                let wrongIdx = [0,1,2,3].filter(idx => idx !== qData.a);
+                percentages[wrongIdx[0]] = Math.floor(Math.random() * remains);
+                remains -= percentages[wrongIdx[0]];
+                percentages[wrongIdx[1]] = Math.floor(Math.random() * remains);
+                remains -= percentages[wrongIdx[1]];
+                percentages[wrongIdx[2]] = remains;
+
+                if (!lifelines.fifty) {
+                    for (let i = 0; i < 4; i++) {
+                        if (UI.options[i].classList.contains('hidden')) {
+                            percentages[qData.a] += percentages[i];
+                            percentages[i] = 0;
+                        }
+                    }
+                }
+
+                UI.modalAudience.classList.remove('hidden');
+                setTimeout(() => {
+                    for(let i=0; i<4; i++) {
+                        document.getElementById(`aud-val-${i}`).textContent = percentages[i] + '%';
+                        document.getElementById(`aud-bar-${i}`).style.height = percentages[i] + '%';
+                        if (percentages[i] === Math.max(...percentages) && percentages[i] > 0) {
+                            document.getElementById(`aud-bar-${i}`).classList.replace('bg-blue-500', 'bg-emerald-500');
+                        }
+                    }
+                }, 200);
+            }
+            else if (type === 'PHONE' && lifelines.phone) {
+                lifelines.phone = false;
+                UI.btnPhone.classList.add('disabled-lifeline');
+                sfx.select();
+                
+                let response = "";
+                let isSure = Math.random() > (currentLevel === 'SULIT' ? 0.6 : 0.2); 
+                
+                if (isSure) {
+                    const confidentTexts = [
+                        `"Oh itu gampang banget! Aku 100% yakin jawabannya ${['A','B','C','D'][qData.a]}!"`,
+                        `"Aku baru aja baca itu kemaren. Pilih yang ${['A','B','C','D'][qData.a]}, percaya deh."`,
+                        `"Tanpa ragu, jawabannya adalah ${['A','B','C','D'][qData.a]}."`
+                    ];
+                    response = confidentTexts[Math.floor(Math.random() * confidentTexts.length)];
+                } else {
+                    const uncertainTexts = [
+                        `"Hmm.. jujur aku kurang yakin, tapi kayaknya sih antara itu atau ${['A','B','C','D'][qData.a]}."`,
+                        `"Waduh bro, aku lagi di jalan nih. Feeling-ku sih ${['A','B','C','D'][Math.floor(Math.random()*4)]}. Sori ya kalau salah!"`,
+                        `"Aduh blank banget... tebakanku sih ${['A','B','C','D'][Math.floor(Math.random()*4)]}."`
+                    ];
+                    response = uncertainTexts[Math.floor(Math.random() * uncertainTexts.length)];
+                }
+                
+                document.getElementById('phone-text').textContent = response;
+                UI.modalPhone.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
