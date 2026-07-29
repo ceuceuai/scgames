@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#38bdf8">
+
+  <title>Source Code Karpet Cerdas Terbang | Game Edukasi Endless Runner Quiz</title>
+  <meta name="description" content="Jual source code Karpet Cerdas Terbang, game edukasi Endless Runner Quiz berbasis Google Apps Script dan Google Sheets. Dilengkapi leaderboard, bank soal, Guru Virtual, misi harian, skin karpet, Boss Level, badge, resume game, dan share WhatsApp.">
+  <meta name="keywords" content="source code game edukasi, game anak, google apps script, google sheets, endless runner quiz, karpet cerdas, source code web game">
+  <meta name="author" content="iMersnesia">
+
+  <meta property="og:title" content="Source Code Karpet Cerdas Terbang">
+  <meta property="og:description" content="Game edukasi Endless Runner Quiz dengan backend Google Apps Script dan Google Sheets.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://imersnesia.com/wp-content/uploads/2026/07/karpertcerdas.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --sky-50: #f0f9ff;
+      --sky-100: #e0f2fe;
+      --sky-300: #7dd3fc;
+      --sky-400: #38bdf8;
+      --sky-500: #0ea5e9;
+      --sky-600: #0284c7;
+      --blue-800: #1e40af;
+      --purple-500: #a855f7;
+      --purple-700: #7e22ce;
+      --yellow-300: #fde047;
+      --yellow-400: #facc15;
+      --yellow-500: #eab308;
+      --orange-500: #f97316;
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --pink-400: #f472b6;
+      --pink-500: #ec4899;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --white: #ffffff;
+      --shadow: 0 18px 45px rgba(15, 23, 42, .14);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--slate-700);
+      background: #f8fcff;
+      font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 32px));
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 88px 0;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin: 0 auto 16px;
+      text-align: center;
+      color: var(--slate-800);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: .98;
+      font-weight: 900;
+    }
+
+    .section-subtitle {
+      max-width: 730px;
+      margin: 0 auto 48px;
+      text-align: center;
+      color: var(--slate-500);
+      font-size: 1.08rem;
+      line-height: 1.65;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border: 2px solid rgba(14, 165, 233, .2);
+      border-radius: 999px;
+      color: var(--sky-600);
+      background: rgba(255, 255, 255, .75);
+      font-weight: 900;
+      font-size: .8rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 22px rgba(14, 165, 233, .12);
+    }
+
+    .btn {
+      display: inline-flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 900;
+      text-align: center;
+      transition: .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(180deg, var(--emerald-400), var(--emerald-600));
+      box-shadow: 0 7px 0 #047857, 0 14px 32px rgba(16, 185, 129, .3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(5px);
+      box-shadow: 0 2px 0 #047857, 0 6px 15px rgba(16, 185, 129, .25);
+    }
+
+    .btn-secondary {
+      color: var(--sky-600);
+      border: 3px solid var(--sky-300);
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 8px 24px rgba(14, 165, 233, .15);
+    }
+
+    .btn-yellow {
+      color: #713f12;
+      background: linear-gradient(180deg, #fde68a, var(--yellow-400));
+      box-shadow: 0 7px 0 #ca8a04, 0 14px 32px rgba(234, 179, 8, .26);
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      z-index: 1000;
+      top: 14px;
+      left: 50%;
+      width: min(1080px, calc(100% - 24px));
+      transform: translateX(-50%);
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .84);
+      box-shadow: 0 12px 38px rgba(15, 23, 42, .12);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      display: flex;
+      min-height: 64px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 8px 10px 8px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--sky-600);
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .brand-badge {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--sky-400), var(--purple-500));
+      box-shadow: 0 7px 17px rgba(14, 165, 233, .3);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--slate-600);
+      font-size: .94rem;
+      font-weight: 800;
+    }
+
+    .nav-links a:hover {
+      color: var(--sky-600);
+    }
+
+    .nav .btn {
+      min-height: 46px;
+      padding-inline: 18px;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 810px;
+      padding: 128px 0 88px;
+      background:
+        radial-gradient(circle at 80% 18%, rgba(250, 204, 21, .42), transparent 25%),
+        radial-gradient(circle at 10% 38%, rgba(168, 85, 247, .22), transparent 28%),
+        linear-gradient(180deg, #38bdf8 0%, #bae6fd 45%, #f8fcff 100%);
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      content: "";
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .55);
+      filter: blur(2px);
+    }
+
+    .hero::before {
+      width: 380px;
+      height: 120px;
+      left: -100px;
+      top: 300px;
+      box-shadow:
+        170px -30px 0 20px rgba(255, 255, 255, .55),
+        320px 10px 0 -10px rgba(255, 255, 255, .48);
+    }
+
+    .hero::after {
+      width: 350px;
+      height: 110px;
+      right: -90px;
+      top: 190px;
+      box-shadow:
+        -160px 20px 0 10px rgba(255, 255, 255, .54),
+        -290px -25px 0 -15px rgba(255, 255, 255, .44);
+    }
+
+    .spark {
+      position: absolute;
+      color: var(--yellow-300);
+      font-size: 34px;
+      filter: drop-shadow(0 4px 8px rgba(234, 179, 8, .3));
+      animation: float 3.2s ease-in-out infinite;
+    }
+
+    .spark-1 { top: 135px; left: 8%; }
+    .spark-2 { top: 210px; right: 7%; animation-delay: .8s; }
+    .spark-3 { bottom: 190px; left: 46%; animation-delay: 1.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      50% { transform: translateY(-14px) rotate(8deg); }
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      align-items: center;
+      gap: 58px;
+    }
+
+    .hero-copy h1 {
+      margin: 20px 0 18px;
+      color: white;
+      font-size: clamp(3rem, 7vw, 5.7rem);
+      line-height: .87;
+      font-weight: 900;
+      letter-spacing: -.035em;
+      text-shadow:
+        0 5px 0 var(--sky-600),
+        0 12px 30px rgba(3, 105, 161, .26);
+    }
+
+    .hero-copy h1 span {
+      display: block;
+      color: var(--yellow-300);
+      -webkit-text-stroke: 2px #b45309;
+      text-shadow:
+        0 5px 0 #b45309,
+        0 12px 30px rgba(180, 83, 9, .2);
+    }
+
+    .hero-copy p {
+      max-width: 660px;
+      margin: 0 0 28px;
+      color: #0c4a6e;
+      font-size: clamp(1.05rem, 2vw, 1.24rem);
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .hero-point {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 2px solid rgba(255, 255, 255, .7);
+      border-radius: 999px;
+      color: var(--slate-700);
+      background: rgba(255, 255, 255, .66);
+      font-size: .86rem;
+      font-weight: 800;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo-card {
+      position: relative;
+      width: min(530px, 100%);
+      padding: 24px;
+      border: 3px solid rgba(255, 255, 255, .78);
+      border-radius: 42px;
+      background: rgba(255, 255, 255, .35);
+      box-shadow: 0 30px 80px rgba(2, 132, 199, .25);
+      backdrop-filter: blur(10px);
+      animation: carpetFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes carpetFloat {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-14px) rotate(1deg); }
+    }
+
+    .logo-card img {
+      width: 100%;
+      border-radius: 30px;
+      filter: drop-shadow(0 22px 22px rgba(30, 64, 175, .22));
+    }
+
+    .floating-card {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 15px;
+      border: 3px solid white;
+      border-radius: 18px;
+      color: var(--slate-700);
+      background: white;
+      box-shadow: var(--shadow);
+      font-size: .9rem;
+      font-weight: 900;
+    }
+
+    .floating-card strong {
+      display: block;
+      color: var(--sky-600);
+      font-size: 1.05rem;
+    }
+
+    .floating-card.one {
+      left: -35px;
+      bottom: 95px;
+      transform: rotate(-5deg);
+    }
+
+    .floating-card.two {
+      right: -20px;
+      top: 75px;
+      transform: rotate(5deg);
+    }
+
+    /* Trust stats */
+    .trust-strip {
+      position: relative;
+      z-index: 4;
+      margin-top: -44px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 4px solid white;
+      border-radius: 28px;
+      background: white;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .trust-item {
+      padding: 24px 20px;
+      text-align: center;
+      border-right: 1px dashed #bae6fd;
+    }
+
+    .trust-item:last-child {
+      border-right: 0;
+    }
+
+    .trust-item strong {
+      display: block;
+      color: var(--sky-600);
+      font-size: 1.55rem;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .trust-item span {
+      display: block;
+      margin-top: 7px;
+      color: var(--slate-500);
+      font-size: .86rem;
+      font-weight: 800;
+    }
+
+    /* Problem solution */
+    .problem {
+      background:
+        radial-gradient(circle at 8% 30%, rgba(56, 189, 248, .14), transparent 24%),
+        radial-gradient(circle at 92% 70%, rgba(250, 204, 21, .17), transparent 22%),
+        #f8fcff;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .problem-card,
+    .solution-card {
+      position: relative;
+      padding: 36px;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .problem-card {
+      color: #881337;
+      border: 3px solid #fbcfe8;
+      background: linear-gradient(145deg, #fff1f2, #fdf2f8);
+    }
+
+    .solution-card {
+      color: #065f46;
+      border: 3px solid #a7f3d0;
+      background: linear-gradient(145deg, #ecfdf5, #f0fdfa);
+    }
+
+    .problem-card h3,
+    .solution-card h3 {
+      margin: 0 0 18px;
+      font-size: 1.55rem;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 13px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      color: var(--slate-600);
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .check-list i {
+      display: grid;
+      flex: 0 0 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 50%;
+      font-style: normal;
+      font-size: .8rem;
+    }
+
+    .problem-card i {
+      color: white;
+      background: var(--pink-500);
+    }
+
+    .solution-card i {
+      color: white;
+      background: var(--emerald-500);
+    }
+
+    /* Gameplay */
+    .gameplay {
+      position: relative;
+      background:
+        linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%);
+      overflow: hidden;
+    }
+
+    .gameplay::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      opacity: .32;
+      background-image:
+        radial-gradient(circle at 20px 20px, white 0 18px, transparent 19px),
+        radial-gradient(circle at 58px 25px, white 0 25px, transparent 26px);
+      background-size: 280px 140px;
+    }
+
+    .gameplay-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .phone {
+      position: relative;
+      width: min(370px, 100%);
+      margin: auto;
+      padding: 13px;
+      border: 8px solid var(--slate-800);
+      border-radius: 46px;
+      background: var(--slate-800);
+      box-shadow: 0 30px 60px rgba(15, 23, 42, .24);
+    }
+
+    .phone-notch {
+      position: absolute;
+      z-index: 4;
+      top: 18px;
+      left: 50%;
+      width: 106px;
+      height: 24px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: var(--slate-800);
+    }
+
+    .game-screen {
+      position: relative;
+      min-height: 660px;
+      border-radius: 31px;
+      background:
+        linear-gradient(180deg, #38bdf8 0%, #bae6fd 100%);
+      overflow: hidden;
+    }
+
+    .game-hud {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .hud-pill {
+      padding: 7px 10px;
+      border: 3px solid var(--yellow-400);
+      border-radius: 999px;
+      color: var(--slate-700);
+      background: rgba(255,255,255,.94);
+      font-size: .73rem;
+      font-weight: 900;
+      box-shadow: 0 5px 12px rgba(15,23,42,.12);
+    }
+
+    .question-demo {
+      position: absolute;
+      z-index: 2;
+      top: 73px;
+      left: 15px;
+      right: 15px;
+      padding: 13px;
+      border: 4px solid var(--yellow-400);
+      border-radius: 18px;
+      text-align: center;
+      color: var(--slate-700);
+      background: white;
+      box-shadow: 0 10px 24px rgba(15,23,42,.12);
+      font-weight: 900;
+    }
+
+    .cloud-demo {
+      position: absolute;
+      left: 50%;
+      width: 115px;
+      min-height: 58px;
+      transform: translateX(-50%);
+      display: grid;
+      place-items: center;
+      padding: 8px;
+      border-radius: 50px;
+      color: var(--sky-600);
+      background: white;
+      box-shadow:
+        -28px 4px 0 -8px white,
+        28px 4px 0 -8px white,
+        0 9px 18px rgba(14,165,233,.2);
+      font-size: .8rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .cloud-demo.c1 { top: 230px; left: 20%; }
+    .cloud-demo.c2 { top: 230px; left: 50%; border: 4px solid var(--emerald-400); }
+    .cloud-demo.c3 { top: 230px; left: 80%; }
+
+    .magic-carpet {
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      bottom: 112px;
+      width: 132px;
+      height: 65px;
+      transform: translateX(-50%) rotate(-3deg);
+      border: 7px solid #7e22ce;
+      border-radius: 24px 10px 28px 10px;
+      background:
+        linear-gradient(90deg, transparent 0 10%, #fde047 10% 18%, transparent 18% 82%, #fde047 82% 90%, transparent 90%),
+        linear-gradient(135deg, #a855f7, #6b21a8);
+      box-shadow: 0 15px 20px rgba(126,34,206,.3);
+    }
+
+    .magic-carpet::before {
+      position: absolute;
+      top: -56px;
+      left: 42px;
+      content: "👦🏻";
+      font-size: 58px;
+      filter: drop-shadow(0 6px 5px rgba(15,23,42,.2));
+    }
+
+    .magic-carpet::after {
+      position: absolute;
+      right: -8px;
+      bottom: -13px;
+      content: "✨";
+      font-size: 30px;
+    }
+
+    .gameplay-copy .eyebrow {
+      margin-bottom: 18px;
+    }
+
+    .gameplay-copy h2 {
+      margin: 0 0 18px;
+      color: var(--slate-800);
+      font-size: clamp(2.35rem, 5vw, 4.2rem);
+      line-height: .94;
+      font-weight: 900;
+    }
+
+    .gameplay-copy h2 span {
+      color: var(--sky-500);
+    }
+
+    .gameplay-copy > p {
+      color: var(--slate-500);
+      font-size: 1.06rem;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .step-list {
+      display: grid;
+      gap: 15px;
+      margin-top: 28px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      align-items: start;
+      gap: 14px;
+      padding: 16px;
+      border: 2px solid #e0f2fe;
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 9px 22px rgba(14,165,233,.08);
+    }
+
+    .step-number {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border-radius: 15px;
+      color: white;
+      background: linear-gradient(135deg, var(--sky-400), var(--purple-500));
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    .step h4 {
+      margin: 0 0 3px;
+      color: var(--slate-800);
+      font-size: 1.02rem;
+      font-weight: 900;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--slate-500);
+      line-height: 1.45;
+      font-size: .91rem;
+      font-weight: 600;
+    }
+
+    /* Features */
+    .features {
+      background:
+        radial-gradient(circle at top left, rgba(168, 85, 247, .1), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(14, 165, 233, .13), transparent 30%),
+        white;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .feature-card {
+      position: relative;
+      min-height: 255px;
+      padding: 26px;
+      border: 2px solid #e2e8f0;
+      border-radius: 24px;
+      background: white;
+      box-shadow: 0 13px 32px rgba(15, 23, 42, .07);
+      transition: .22s ease;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-7px);
+      border-color: var(--sky-300);
+      box-shadow: 0 22px 42px rgba(14, 165, 233, .13);
+    }
+
+    .feature-icon {
+      display: grid;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 18px;
+      place-items: center;
+      border-radius: 20px;
+      font-size: 30px;
+      background: linear-gradient(145deg, #f0f9ff, #e0f2fe);
+      box-shadow: inset 0 0 0 2px white, 0 9px 22px rgba(14,165,233,.12);
+    }
+
+    .feature-card:nth-child(3n+2) .feature-icon {
+      background: linear-gradient(145deg, #faf5ff, #f3e8ff);
+    }
+
+    .feature-card:nth-child(3n+3) .feature-icon {
+      background: linear-gradient(145deg, #fffbeb, #fef3c7);
+    }
+
+    .feature-card h3 {
+      margin: 0 0 9px;
+      color: var(--slate-800);
+      font-size: 1.24rem;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--slate-500);
+      line-height: 1.58;
+      font-size: .94rem;
+      font-weight: 600;
+    }
+
+    /* Zero cost */
+    .zero-cost {
+      color: white;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, .3), transparent 28%),
+        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, .28), transparent 27%),
+        linear-gradient(135deg, #0f172a, #172554 58%, #312e81);
+    }
+
+    .zero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .zero-copy h2 {
+      margin: 16px 0;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      line-height: .94;
+      font-weight: 900;
+    }
+
+    .zero-copy h2 span {
+      color: var(--yellow-300);
+    }
+
+    .zero-copy p {
+      margin: 0 0 26px;
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tech-pill {
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      color: #e0f2fe;
+      background: rgba(255,255,255,.08);
+      font-size: .85rem;
+      font-weight: 800;
+    }
+
+    .stack-card {
+      display: grid;
+      gap: 14px;
+      padding: 28px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 30px;
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 28px 70px rgba(0,0,0,.25);
+      backdrop-filter: blur(12px);
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .stack-icon {
+      display: grid;
+      width: 58px;
+      height: 58px;
+      place-items: center;
+      border-radius: 16px;
+      font-size: 28px;
+      background: rgba(255,255,255,.11);
+    }
+
+    .stack-row strong {
+      display: block;
+      color: white;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .stack-row small {
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .stack-status {
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: #bbf7d0;
+      background: rgba(16,185,129,.14);
+      font-size: .72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    /* Package */
+    .package {
+      background: #f8fafc;
+    }
+
+    .package-grid {
+      display: grid;
+      grid-template-columns: 1fr .82fr;
+      align-items: stretch;
+      gap: 28px;
+    }
+
+    .package-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .package-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 8px 20px rgba(15,23,42,.05);
+    }
+
+    .package-check {
+      display: grid;
+      flex: 0 0 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 12px;
+      color: white;
+      background: var(--emerald-500);
+      font-size: .9rem;
+      font-weight: 900;
+    }
+
+    .package-item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--slate-800);
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .package-item span {
+      color: var(--slate-500);
+      font-size: .84rem;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    .price-card {
+      position: sticky;
+      top: 105px;
+      align-self: start;
+      padding: 34px;
+      border: 4px solid var(--yellow-400);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at top right, rgba(250,204,21,.23), transparent 30%),
+        white;
+      box-shadow: 0 24px 58px rgba(234,179,8,.18);
+    }
+
+    .price-tag {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: #854d0e;
+      background: #fef3c7;
+      font-size: .78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .price-card h3 {
+      margin: 17px 0 4px;
+      color: var(--slate-800);
+      font-size: 1.65rem;
+      font-weight: 900;
+    }
+
+    .old-price {
+      color: #94a3b8;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: line-through;
+    }
+
+    .price {
+      margin: 3px 0 16px;
+      color: var(--sky-600);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .price-note {
+      margin-bottom: 20px;
+      color: var(--slate-500);
+      line-height: 1.5;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mini-list li {
+      display: flex;
+      gap: 9px;
+      color: var(--slate-600);
+      line-height: 1.35;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .mini-list li::before {
+      content: "✓";
+      color: var(--emerald-500);
+      font-weight: 900;
+    }
+
+    .price-card .btn {
+      width: 100%;
+    }
+
+    .secure-note {
+      margin-top: 14px;
+      text-align: center;
+      color: var(--slate-500);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    /* Audience */
+    .audience {
+      background: white;
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .audience-card {
+      padding: 24px 20px;
+      border: 2px solid #e0f2fe;
+      border-radius: 22px;
+      text-align: center;
+      background: linear-gradient(180deg, #f0f9ff, white);
+    }
+
+    .audience-card span {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 44px;
+    }
+
+    .audience-card h3 {
+      margin: 0 0 7px;
+      color: var(--slate-800);
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    .audience-card p {
+      margin: 0;
+      color: var(--slate-500);
+      font-size: .88rem;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    /* FAQ */
+    .faq {
+      background: linear-gradient(180deg, #f8fafc, #eff6ff);
+    }
+
+    .faq-list {
+      max-width: 850px;
+      margin: auto;
+    }
+
+    details {
+      margin-bottom: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 8px 18px rgba(15,23,42,.04);
+      overflow: hidden;
+    }
+
+    summary {
+      position: relative;
+      padding: 20px 58px 20px 22px;
+      color: var(--slate-800);
+      cursor: pointer;
+      list-style: none;
+      font-weight: 900;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      position: absolute;
+      top: 50%;
+      right: 22px;
+      content: "+";
+      transform: translateY(-50%);
+      color: var(--sky-600);
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    details[open] summary::after {
+      content: "−";
+    }
+
+    .faq-answer {
+      padding: 0 22px 21px;
+      color: var(--slate-500);
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      padding: 84px 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.3), transparent 20%),
+        radial-gradient(circle at 85% 60%, rgba(250,204,21,.35), transparent 20%),
+        linear-gradient(135deg, var(--sky-400), var(--sky-600) 58%, var(--purple-700));
+    }
+
+    .cta-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 30px;
+      padding: 44px;
+      border: 3px solid rgba(255,255,255,.7);
+      border-radius: 34px;
+      color: white;
+      background: rgba(255,255,255,.13);
+      box-shadow: 0 26px 62px rgba(30,64,175,.25);
+      backdrop-filter: blur(12px);
+    }
+
+    .cta-box h2 {
+      margin: 0 0 9px;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: .95;
+      font-weight: 900;
+    }
+
+    .cta-box p {
+      max-width: 680px;
+      margin: 0;
+      color: #e0f2fe;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .cta-box .btn {
+      min-width: 240px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 30px 0 95px;
+      color: #94a3b8;
+      background: #0f172a;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .footer-brand span {
+      color: var(--sky-400);
+    }
+
+    .footer-note {
+      max-width: 590px;
+      text-align: right;
+      font-size: .82rem;
+      line-height: 1.45;
+    }
+
+    /* Mobile sticky CTA */
+    .mobile-buy {
+      position: fixed;
+      z-index: 999;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 10px 10px 16px;
+      border: 2px solid white;
+      border-radius: 22px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 15px 40px rgba(15,23,42,.22);
+      backdrop-filter: blur(12px);
+    }
+
+    .mobile-buy strong {
+      display: block;
+      color: var(--sky-600);
+      font-size: 1.1rem;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .mobile-buy small {
+      color: var(--slate-500);
+      font-size: .68rem;
+      font-weight: 700;
+    }
+
+    .mobile-buy .btn {
+      min-height: 46px;
+      padding: 10px 18px;
+      font-size: .83rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .gameplay-grid,
+      .zero-grid,
+      .package-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 115px;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-copy p {
+        margin-inline: auto;
+      }
+
+      .hero-actions,
+      .hero-points {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        margin-top: 18px;
+      }
+
+      .logo-card {
+        width: min(500px, 90%);
+      }
+
+      .gameplay-copy {
+        order: -1;
+        text-align: center;
+      }
+
+      .step {
+        text-align: left;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .audience-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .price-card {
+        position: static;
+      }
+
+      .cta-box {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .cta-box .btn {
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        width: min(100% - 22px, 1160px);
+      }
+
+      .section {
+        padding: 66px 0;
+      }
+
+      .nav {
+        top: 8px;
+      }
+
+      .nav-inner {
+        min-height: 56px;
+        padding-left: 13px;
+      }
+
+      .nav .brand {
+        font-size: .94rem;
+      }
+
+      .nav .btn {
+        min-height: 42px;
+        padding: 9px 14px;
+        font-size: .76rem;
+      }
+
+      .brand-badge {
+        width: 37px;
+        height: 37px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 102px 0 74px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(3rem, 16vw, 4.25rem);
+      }
+
+      .hero-copy h1 span {
+        -webkit-text-stroke: 1.2px #b45309;
+      }
+
+      .hero-copy p {
+        font-size: .98rem;
+      }
+
+      .hero-actions {
+        display: grid;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .floating-card {
+        display: none;
+      }
+
+      .logo-card {
+        width: 100%;
+        padding: 13px;
+        border-radius: 28px;
+      }
+
+      .logo-card img {
+        border-radius: 21px;
+      }
+
+      .trust-strip {
+        margin-top: -28px;
+      }
+
+      .trust-grid {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .trust-item {
+        padding: 18px 10px;
+      }
+
+      .trust-item:nth-child(2) {
+        border-right: 0;
+      }
+
+      .trust-item:nth-child(-n+2) {
+        border-bottom: 1px dashed #bae6fd;
+      }
+
+      .problem-grid,
+      .feature-grid,
+      .package-list,
+      .audience-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .problem-card,
+      .solution-card,
+      .price-card {
+        padding: 25px;
+      }
+
+      .phone {
+        width: 330px;
+      }
+
+      .game-screen {
+        min-height: 585px;
+      }
+
+      .cloud-demo {
+        width: 92px;
+        font-size: .7rem;
+      }
+
+      .cloud-demo.c1 { left: 19%; }
+      .cloud-demo.c3 { left: 81%; }
+
+      .stack-card {
+        padding: 17px;
+      }
+
+      .stack-row {
+        grid-template-columns: 48px 1fr;
+      }
+
+      .stack-icon {
+        width: 48px;
+        height: 48px;
+      }
+
+      .stack-status {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .cta-box {
+        padding: 29px 20px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-note {
+        text-align: center;
+      }
+
+      .mobile-buy {
+        display: flex;
+      }
+
+      footer {
+        padding-bottom: 115px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!--
+    ==========================================================
+    KONFIGURASI CEPAT
+    Ganti harga, nomor WhatsApp, link demo, dan nama produk
+    di bagian JavaScript paling bawah file ini.
+    ==========================================================
+  -->
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#home">
+        <span class="brand-badge">🪄</span>
+        <span>Karpet Cerdas</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#fitur">Fitur</a>
+        <a href="#teknologi">Teknologi</a>
+        <a href="#paket">Isi Paket</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <a class="btn btn-primary js-buy" href="#">Dapatkan Source Code</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <span class="spark spark-1">★</span>
+    <span class="spark spark-2">✦</span>
+    <span class="spark spark-3">★</span>
+
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">🎮 Source Code Game Edukasi Web</span>
+
+        <h1>
+          KARPET CERDAS
+          <span>TERBANG</span>
+        </h1>
+
+        <p>
+          Ubah proses belajar menjadi petualangan seru di atas karpet terbang.
+          Pemain menghindari jawaban yang salah, memilih awan jawaban yang benar,
+          naik level, membuka skin, mengoleksi lencana, dan bersaing di leaderboard.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary js-buy" href="#">
+            🛒 Beli Source Code
+          </a>
+          <a class="btn btn-secondary js-demo" href="#">
+            ▶ Lihat Demo Game
+          </a>
+        </div>
+
+        <div class="hero-points">
+          <div class="hero-point">✓ HTML5 Canvas & JavaScript</div>
+          <div class="hero-point">✓ Google Apps Script</div>
+          <div class="hero-point">✓ Google Sheets Database</div>
+          <div class="hero-point">✓ Responsif HP & Desktop</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="logo-card">
+          <img
+            src="https://imersnesia.com/wp-content/uploads/2026/07/karpertcerdas.png"
+            alt="Logo Karpet Cerdas Terbang Powered by iMersnesia"
+          >
+        </div>
+
+        <div class="floating-card one">
+          <span style="font-size:28px">🏆</span>
+          <div>
+            <strong>Leaderboard</strong>
+            Skor tersimpan otomatis
+          </div>
+        </div>
+
+        <div class="floating-card two">
+          <span style="font-size:28px">🤖</span>
+          <div>
+            <strong>Guru Virtual</strong>
+            Membacakan pertanyaan
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="trust-strip">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <strong>0 Biaya</strong>
+          <span>Server bulanan</span>
+        </div>
+        <div class="trust-item">
+          <strong>3 Jalur</strong>
+          <span>Pilihan jawaban</span>
+        </div>
+        <div class="trust-item">
+          <strong>10 Besar</strong>
+          <span>Global leaderboard</span>
+        </div>
+        <div class="trust-item">
+          <strong>Multi-Level</strong>
+          <span>Termasuk Boss Level</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section problem">
+    <div class="container">
+      <h2 class="section-title">Belajar Tidak Harus Terasa Seperti Ujian</h2>
+      <p class="section-subtitle">
+        Karpet Cerdas Terbang menggabungkan kuis edukasi, game endless runner,
+        progres pemain, dan pengalaman visual yang ramah anak.
+      </p>
+
+      <div class="problem-grid">
+        <article class="problem-card">
+          <h3>Masalah Game Kuis Biasa</h3>
+          <ul class="check-list">
+            <li><i>×</i><span>Anak cepat bosan karena hanya menekan tombol jawaban.</span></li>
+            <li><i>×</i><span>Jawaban salah hanya diberi tanda tanpa pembahasan.</span></li>
+            <li><i>×</i><span>Tidak ada progres, koleksi, atau tantangan harian.</span></li>
+            <li><i>×</i><span>Pengelola harus mengedit kode untuk menambah soal.</span></li>
+          </ul>
+        </article>
+
+        <article class="solution-card">
+          <h3>Solusi Karpet Cerdas</h3>
+          <ul class="check-list">
+            <li><i>✓</i><span>Pemain bergerak aktif memilih awan jawaban di tiga jalur.</span></li>
+            <li><i>✓</i><span>Setiap jawaban salah disertai jawaban benar dan Pintar-Poin.</span></li>
+            <li><i>✓</i><span>Ada level, skin karpet, badge, misi harian, dan leaderboard.</span></li>
+            <li><i>✓</i><span>Bank soal dikelola dengan mudah melalui Google Sheets.</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section gameplay">
+    <div class="container gameplay-grid">
+      <div class="phone" aria-label="Ilustrasi gameplay Karpet Cerdas Terbang">
+        <div class="phone-notch"></div>
+
+        <div class="game-screen">
+          <div class="game-hud">
+            <span class="hud-pill">LVL 5</span>
+            <span class="hud-pill" style="border-color:#38bdf8">SKOR 2.500</span>
+            <span class="hud-pill" style="border-color:#f472b6">❤️❤️❤️</span>
+          </div>
+
+          <div class="question-demo">
+            Nabi terakhir yang wajib kita teladani adalah?
+          </div>
+
+          <div class="cloud-demo c1">Nabi Musa</div>
+          <div class="cloud-demo c2">Nabi Muhammad</div>
+          <div class="cloud-demo c3">Nabi Nuh</div>
+
+          <div class="magic-carpet"></div>
+        </div>
+      </div>
+
+      <div class="gameplay-copy">
+        <span class="eyebrow">☁️ Endless Runner Quiz</span>
+        <h2>Belajar Sambil <span>Terbang dan Bermain</span></h2>
+        <p>
+          Pemain mengendalikan anak soleh atau solehah di atas karpet terbang.
+          Geser ke kiri atau kanan untuk memasuki awan jawaban yang tepat.
+          Setiap jawaban benar menambah skor dan membawa pemain menuju level berikutnya.
+        </p>
+
+        <div class="step-list">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div>
+              <h4>Pertanyaan Muncul Otomatis</h4>
+              <p>Soal diambil dari Google Sheets sesuai kategori dan tingkat kesulitan.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div>
+              <h4>Pilih Jalur Jawaban</h4>
+              <p>Pemain menggeser karpet menuju salah satu dari tiga awan jawaban.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div>
+              <h4>Naik Level dan Buka Hadiah</h4>
+              <p>Jawaban benar menambah skor, membuka badge, skin karpet, dan Boss Level.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section features" id="fitur">
+    <div class="container">
+      <h2 class="section-title">Mega Update V2.0: Fitur yang Bikin Game Lebih Bernilai</h2>
+      <p class="section-subtitle">
+        Bukan sekadar game kuis. Source code ini sudah memiliki sistem edukasi,
+        retensi pemain, personalisasi, dan backend yang bisa dikelola tanpa coding ulang.
+      </p>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">💡</div>
+          <h3>Jeda Edukasi</h3>
+          <p>
+            Saat jawaban salah, game berhenti sementara dan menampilkan jawaban benar
+            beserta Pintar-Poin atau pembahasan materi.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>Guru Virtual</h3>
+          <p>
+            Menggunakan Web Speech API untuk membacakan pertanyaan dalam Bahasa Indonesia
+            dan memberi pujian audio saat jawaban benar.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">👑</div>
+          <h3>Misi Harian & Skin</h3>
+          <p>
+            Main tiga kali untuk membuka Karpet Emas dan jawab lima belas soal
+            untuk membuka Karpet Merah Putih.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">👹</div>
+          <h3>Ujian Bos</h3>
+          <p>
+            Pada level 5, 10, 15, dan seterusnya, langit berubah menjadi senja
+            dan game memilih soal dengan tingkat kesulitan khusus.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🤲</div>
+          <h3>Doa Belajar Dinamis</h3>
+          <p>
+            Doa belajar ditampilkan secara acak di halaman awal untuk memperkuat
+            tema edukasi Islami yang positif.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🎖️</div>
+          <h3>Lencana Prestasi</h3>
+          <p>
+            Termasuk badge Penuntut Ilmu, Pagi Cerdas, dan Si Teliti
+            berdasarkan pencapaian pemain.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">💾</div>
+          <h3>Resume Otomatis</h3>
+          <p>
+            Progres tersimpan melalui localStorage sehingga permainan dapat dilanjutkan
+            ketika browser tertutup tanpa sengaja.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">⚔️</div>
+          <h3>Tantang Abi atau Ummi</h3>
+          <p>
+            Anak dapat menyerahkan perangkat kepada orang tua untuk mencoba
+            mengalahkan skor yang sudah dibuat.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Share WhatsApp</h3>
+          <p>
+            Pesan WhatsApp dibuat otomatis dengan skor pemain, judul game,
+            dan tautan bermain yang dapat diatur dari sistem.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3>Leaderboard Global</h3>
+          <p>
+            Menampilkan sepuluh pemain terbaik. Nama, skor, dan badge dapat disimpan
+            ke database Google Sheets.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3>Bank Soal Dinamis</h3>
+          <p>
+            Tambah, ubah, dan kelompokkan soal melalui spreadsheet berdasarkan kategori,
+            level, jawaban, bonus, dan pembahasan.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>Branding Fleksibel</h3>
+          <p>
+            Judul, logo, nama developer, aturan poin, syarat naik level,
+            teks share, dan tautan dapat diatur dari Google Sheets.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section zero-cost" id="teknologi">
+    <div class="container zero-grid">
+      <div class="zero-copy">
+        <span class="eyebrow" style="color:#fde047;border-color:rgba(253,224,71,.3);background:rgba(255,255,255,.08)">
+          ⚡ Zero-Cost Server
+        </span>
+
+        <h2>Backend dan Database <span>Tanpa Server Bulanan</span></h2>
+
+        <p>
+          Seluruh sistem dapat berjalan menggunakan layanan Google Workspace.
+          Google Apps Script menangani fungsi backend dan Google Sheets menjadi
+          database untuk soal, pengaturan, serta leaderboard.
+        </p>
+
+        <div class="tech-list">
+          <span class="tech-pill">HTML5 Canvas</span>
+          <span class="tech-pill">Vanilla JavaScript</span>
+          <span class="tech-pill">Google Apps Script</span>
+          <span class="tech-pill">Google Sheets</span>
+          <span class="tech-pill">Web Speech API</span>
+          <span class="tech-pill">localStorage</span>
+        </div>
+      </div>
+
+      <div class="stack-card">
+        <div class="stack-row">
+          <div class="stack-icon">🎮</div>
+          <div>
+            <strong>Frontend Game</strong>
+            <small>Canvas, HTML, CSS, dan JavaScript</small>
+          </div>
+          <span class="stack-status">Siap Pakai</span>
+        </div>
+
+        <div class="stack-row">
+          <div class="stack-icon">⚙️</div>
+          <div>
+            <strong>Backend Logic</strong>
+            <small>Google Apps Script Web App</small>
+          </div>
+          <span class="stack-status">Terintegrasi</span>
+        </div>
+
+        <div class="stack-row">
+          <div class="stack-icon">📊</div>
+          <div>
+            <strong>Database</strong>
+            <small>Google Sheets yang mudah diedit</small>
+          </div>
+          <span class="stack-status">Dinamis</span>
+        </div>
+
+        <div class="stack-row">
+          <div class="stack-icon">☁️</div>
+          <div>
+            <strong>Hosting</strong>
+            <small>Deploy sebagai Google Apps Script Web App</small>
+          </div>
+          <span class="stack-status">Tanpa VPS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section audience">
+    <div class="container">
+      <h2 class="section-title">Cocok Digunakan untuk Siapa?</h2>
+      <p class="section-subtitle">
+        Source code dapat dikembangkan menjadi produk edukasi, media belajar,
+        bonus kelas, permainan komunitas, atau layanan digital berbranding sendiri.
+      </p>
+
+      <div class="audience-grid">
+        <article class="audience-card">
+          <span>🏫</span>
+          <h3>Sekolah & Pesantren</h3>
+          <p>Media belajar interaktif untuk latihan materi dan kegiatan kelas.</p>
+        </article>
+
+        <article class="audience-card">
+          <span>👨‍🏫</span>
+          <h3>Guru & Kreator Edukasi</h3>
+          <p>Buat bank soal sendiri dan bagikan game kepada siswa atau audiens.</p>
+        </article>
+
+        <article class="audience-card">
+          <span>💻</span>
+          <h3>Developer & Freelancer</h3>
+          <p>Gunakan sebagai produk dasar untuk proyek klien dan pengembangan lanjutan.</p>
+        </article>
+
+        <article class="audience-card">
+          <span>🚀</span>
+          <h3>Pengusaha Produk Digital</h3>
+          <p>Jadikan game sebagai produk, bonus membership, atau media promosi brand.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section package" id="paket">
+    <div class="container">
+      <h2 class="section-title">Apa Saja yang Kamu Dapatkan?</h2>
+      <p class="section-subtitle">
+        Paket dapat kamu sesuaikan kembali dengan file yang benar-benar ingin dijual.
+        Semua bagian harga dan bonus di halaman ini dapat diganti melalui konfigurasi.
+      </p>
+
+      <div class="package-grid">
+        <div class="package-list">
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Source Code Frontend</strong>
+              <span>HTML, CSS, JavaScript, dan Canvas game.</span>
+            </div>
+          </div>
+
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Backend Apps Script</strong>
+              <span>Fungsi settings, soal, skor, dan leaderboard.</span>
+            </div>
+          </div>
+
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Template Google Sheets</strong>
+              <span>Struktur database siap diisi dan disesuaikan.</span>
+            </div>
+          </div>
+
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Sistem Bank Soal</strong>
+              <span>Kategori, level, jawaban, bonus, dan pembahasan.</span>
+            </div>
+          </div>
+
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Leaderboard</strong>
+              <span>Daftar skor pemain tersimpan di spreadsheet.</span>
+            </div>
+          </div>
+
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Pengaturan Dinamis</strong>
+              <span>Judul, logo, poin, level, developer, dan share URL.</span>
+            </div>
+          </div>
+
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Desain Responsif</strong>
+              <span>Dapat dimainkan melalui HP dan desktop.</span>
+            </div>
+          </div>
+
+          <div class="package-item">
+            <span class="package-check">✓</span>
+            <div>
+              <strong>Panduan Instalasi</strong>
+              <span>Tambahkan panduan PDF atau video milikmu di paket.</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="price-card">
+          <span class="price-tag">Harga Launching</span>
+          <h3>Karpet Cerdas Terbang V2.0</h3>
+          <div class="old-price js-old-price">Rp0</div>
+          <div class="price js-price">Rp0</div>
+
+          <p class="price-note">
+            Sekali beli untuk mendapatkan paket source code sesuai detail penawaran.
+            Pastikan ketentuan lisensi dicantumkan saat produk mulai dijual.
+          </p>
+
+          <ul class="mini-list">
+            <li>Source code siap dikembangkan</li>
+            <li>Backend Google Apps Script</li>
+            <li>Database Google Sheets</li>
+            <li>Tanpa kebutuhan VPS berbayar</li>
+            <li>Fitur Mega Update V2.0</li>
+          </ul>
+
+          <a class="btn btn-primary js-buy" href="#">
+            💬 Pesan Melalui WhatsApp
+          </a>
+
+          <div class="secure-note">
+            Pembelian dan pengiriman file dilakukan sesuai alur penjualan kamu.
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq" id="faq">
+    <div class="container">
+      <h2 class="section-title">Pertanyaan yang Sering Ditanyakan</h2>
+      <p class="section-subtitle">
+        Ubah bagian ini sesuai lisensi, metode pengiriman, dan layanan bantuan yang kamu berikan.
+      </p>
+
+      <div class="faq-list">
+        <details>
+          <summary>Apakah game membutuhkan VPS atau hosting berbayar?</summary>
+          <div class="faq-answer">
+            Tidak harus. Game dirancang menggunakan Google Apps Script sebagai backend
+            dan Google Sheets sebagai database. Penggunaan tetap mengikuti kuota dan
+            kebijakan layanan Google.
+          </div>
+        </details>
+
+        <details>
+          <summary>Apakah soal dapat diganti tanpa mengedit kode?</summary>
+          <div class="faq-answer">
+            Ya. Soal, kategori, level, pilihan jawaban, bonus, dan pembahasan dapat
+            dikelola melalui Google Sheets.
+          </div>
+        </details>
+
+        <details>
+          <summary>Apakah judul dan logo game dapat diganti?</summary>
+          <div class="faq-answer">
+            Bisa. Sistem mendukung pengaturan judul, logo, nama developer, aturan poin,
+            syarat naik level, teks share, dan tautan dari konfigurasi spreadsheet.
+          </div>
+        </details>
+
+        <details>
+          <summary>Apakah game bisa dimainkan melalui HP?</summary>
+          <div class="faq-answer">
+            Ya. Antarmuka game dibuat responsif dan kontrolnya mendukung sentuhan,
+            geser, ketuk, serta keyboard untuk desktop.
+          </div>
+        </details>
+
+        <details>
+          <summary>Apakah suara Guru Virtual menggunakan layanan AI berbayar?</summary>
+          <div class="faq-answer">
+            Tidak. Fitur suara menggunakan Web Speech API bawaan browser.
+            Ketersediaan dan jenis suara dapat berbeda pada setiap perangkat atau browser.
+          </div>
+        </details>
+
+        <details>
+          <summary>Apakah source code boleh dijual ulang?</summary>
+          <div class="faq-answer">
+            Ketentuan penggunaan, modifikasi, proyek klien, dan penjualan ulang harus
+            disesuaikan dengan lisensi yang kamu tetapkan sebagai penjual.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h2>Bangun Game Edukasi Branded Tanpa Memulai dari Nol</h2>
+          <p>
+            Dapatkan fondasi game lengkap dengan gameplay, bank soal dinamis,
+            leaderboard, Guru Virtual, progres lokal, misi harian, badge, dan Boss Level.
+          </p>
+        </div>
+
+        <a class="btn btn-yellow js-buy" href="#">
+          🚀 Dapatkan Sekarang
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        Karpet Cerdas <span>Powered by iMersnesia</span>
+      </div>
+
+      <div class="footer-note">
+        Nama merek, logo, harga, lisensi, bonus, layanan bantuan, dan klaim komersial
+        pada halaman ini harus disesuaikan dengan penawaran produk yang sebenarnya.
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-buy">
+    <div>
+      <strong class="js-price">Rp0</strong>
+      <small>Karpet Cerdas V2.0</small>
+    </div>
+
+    <a class="btn btn-primary js-buy" href="#">Beli Sekarang</a>
+  </div>
+
+  <script>
+    /*
+      =========================================================
+      GANTI DATA PENJUALAN DI SINI
+      =========================================================
+    */
+    const SALES_CONFIG = {
+      productName: "Karpet Cerdas Terbang V2.0",
+
+      // Gunakan format nomor internasional tanpa tanda +, spasi, atau strip.
+      whatsappNumber: "6281234567890",
+
+      // Ganti sesuai harga produk.
+      price: "Rp149.000",
+      oldPrice: "Rp299.000",
+
+      // Isi URL demo game. Bila belum ada, gunakan "#".
+      demoUrl: "#",
+
+      whatsappMessage:
+        "Halo, saya tertarik membeli source code Karpet Cerdas Terbang V2.0. Mohon informasi cara pemesanan dan detail lisensinya."
+    };
+
+    const waUrl =
+      "https://wa.me/" +
+      SALES_CONFIG.whatsappNumber +
+      "?text=" +
+      encodeURIComponent(SALES_CONFIG.whatsappMessage);
+
+    document.querySelectorAll(".js-buy").forEach(function (link) {
+      link.href = waUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    });
+
+    document.querySelectorAll(".js-demo").forEach(function (link) {
+      link.href = SALES_CONFIG.demoUrl || "#";
+
+      if (SALES_CONFIG.demoUrl && SALES_CONFIG.demoUrl !== "#") {
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      }
+    });
+
+    document.querySelectorAll(".js-price").forEach(function (element) {
+      element.textContent = SALES_CONFIG.price;
+    });
+
+    document.querySelectorAll(".js-old-price").forEach(function (element) {
+      element.textContent = SALES_CONFIG.oldPrice;
+    });
+  </script>
+</body>
+</html>
